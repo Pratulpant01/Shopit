@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/resources/auth_methods.dart';
+import 'package:shopit/screens/signin_screen.dart';
 
 import 'package:shopit/utils/color_themes.dart';
 
@@ -24,6 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   Size screenSize = Utils().getScreenSize();
+  bool isLoading = false;
 
   AuthMethods authMethods = AuthMethods();
 
@@ -121,8 +123,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                   ),
                                   color: buttonColor,
-                                  isLoading: false,
+                                  isLoading: isLoading,
                                   onPressed: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
                                     String output =
                                         await authMethods.signUpUser(
                                             name: nameController.text,
@@ -134,12 +139,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         context: context,
                                         message: output,
                                       );
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SigninScreen(),
+                                        ),
+                                      );
                                     } else {
                                       Utils().showsnackBar(
                                         context: context,
                                         message: output,
                                       );
                                     }
+                                    setState(() {
+                                      isLoading = false;
+                                    });
                                   },
                                 ),
                               ),
@@ -147,7 +161,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             textButton(
                               label: 'Already a customer? Login Now!',
                               onTap: () {
-                                Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SigninScreen(),
+                                  ),
+                                );
                               },
                             ),
                           ],

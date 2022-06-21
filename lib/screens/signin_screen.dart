@@ -18,6 +18,7 @@ class _SigninScreenState extends State<SigninScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   AuthMethods authMethods = AuthMethods();
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -95,8 +96,11 @@ class _SigninScreenState extends State<SigninScreen> {
                                 ),
                               ),
                               color: buttonColor,
-                              isLoading: false,
+                              isLoading: isLoading,
                               onPressed: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
                                 String output = await authMethods.signInUser(
                                   email: emailController.text,
                                   password: passwordController.text,
@@ -112,6 +116,9 @@ class _SigninScreenState extends State<SigninScreen> {
                                     message: output,
                                   );
                                 }
+                                setState(() {
+                                  isLoading = false;
+                                });
                               },
                             ),
                           ),
@@ -162,7 +169,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     color: Colors.grey[200]!,
                     isLoading: false,
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SignUpScreen(),

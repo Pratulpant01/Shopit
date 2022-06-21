@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shopit/models/userdetail_model.dart';
+import 'package:shopit/resources/firestore_methods.dart';
 
 class AuthMethods {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  FirestoreMethods firestoreMethods = FirestoreMethods();
 
   Future<String> signUpUser(
       {required String name,
@@ -18,6 +21,12 @@ class AuthMethods {
       try {
         await firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
+        UserDetailModel user = UserDetailModel(
+          name: name,
+          address: address,
+        );
+        await firestoreMethods.uploadUserDetails(user: user);
+
         output = "Registration Successful";
       } on FirebaseAuthException catch (e) {
         output = e.message.toString();

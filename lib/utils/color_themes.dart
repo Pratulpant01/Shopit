@@ -10,6 +10,8 @@ const Color buttonColor = Color(0xff122636);
 
 const Color darkColor = Color(0xff1C1C1C);
 
+const Color orangeColor = Color(0xffFF9900);
+
 const List<Color> backgroundGradient = [
   Color(0xff80d9e9),
   Color(0xffa0e9ce),
