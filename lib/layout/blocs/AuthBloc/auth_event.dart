@@ -19,4 +19,14 @@ class SignUpUserEvent extends AuthEvent {
   });
 }
 
-class SigninUserEvent extends AuthEvent {}
+class SigninUserEvent extends AuthEvent {
+  String password;
+  String email;
+  BuildContext context;
+
+  SigninUserEvent({
+    required this.password,
+    required this.email,
+    required this.context,
+  });
+}

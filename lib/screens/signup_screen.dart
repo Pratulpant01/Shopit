@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopit/layout/blocs/AuthBloc/auth_bloc.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/screens/signin_screen.dart';
 
@@ -115,45 +117,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Center(
                               child: Hero(
                                 tag: 2,
-                                child: PrimaryButton(
-                                  child: Text(
-                                    'Sign up',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  color: buttonColor,
-                                  isLoading: isLoading,
-                                  onPressed: () async {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    String output =
-                                        await authMethods.signUpUser(
-                                            name: nameController.text,
-                                            address: addressController.text,
-                                            email: emailController.text,
-                                            password: passwordController.text);
-                                    if (output == 'Registration Successful') {
-                                      Utils().showsnackBar(
-                                        context: context,
-                                        message: output,
-                                      );
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SigninScreen(),
+                                child: BlocBuilder<AuthBloc, AuthState>(
+                                  builder: (context, state) {
+                                    return PrimaryButton(
+                                      child: Text(
+                                        'Sign up',
+                                        style: TextStyle(
+                                          fontSize: 15,
                                         ),
-                                      );
-                                    } else {
-                                      Utils().showsnackBar(
-                                        context: context,
-                                        message: output,
-                                      );
-                                    }
-                                    setState(() {
-                                      isLoading = false;
-                                    });
+                                      ),
+                                      color: buttonColor,
+                                      isLoading:
+                                          state is AuthLoading ? true : false,
+                                      onPressed: () async {
+                                        context.read<AuthBloc>().add(
+                                              SignUpUserEvent(
+                                                name: nameController.text,
+                                                emailId: emailController.text,
+                                                password:
+                                                    passwordController.text,
+                                                address: addressController.text,
+                                                context: context,
+                                              ),
+                                            );
+                                      },
+                                    );
                                   },
                                 ),
                               ),
@@ -183,3 +171,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 }
+
+
+                                          // setState(() {
+                                          //   isLoading = true;
+                                          // });
+                                          // String output =
+                                          //     await authMethods.signUpUser(
+                                          //         name: nameController.text,
+                                          //         address: addressController.text,
+                                          //         email: emailController.text,
+                                          //         password: passwordController.text);
+                                          // if (output == 'Registration Successful') {
+                                          //   Utils().showsnackBar(
+                                          //     context: context,
+                                          //     message: output,
+                                          //   );
+                                          //   Navigator.pushReplacement(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //       builder: (context) => SigninScreen(),
+                                          //     ),
+                                          //   );
+                                          // } else {
+                                          //   Utils().showsnackBar(
+                                          //     context: context,
+                                          //     message: output,
+                                          //   );
+                                          // }
+                                          // setState(() {
+                                          //   isLoading = false;
+                                          // });

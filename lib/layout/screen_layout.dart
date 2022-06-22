@@ -32,17 +32,6 @@ class _ScreenLayoutState extends State<ScreenLayout> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.ac_unit,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-            },
-          ),
-        ),
         body: PageView(
           controller: pageController,
           children: [

@@ -25,35 +25,36 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Shop it',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: backgroundColor,
-      ),
-      // To check whether user is logged in or not. If not than it will show the login screen to the user. If yes than user will get the homepage.
-
-      home: MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider(
-            create: (context) => AuthMethods(),
+    return RepositoryProvider(
+      create: (context) => AuthMethods(),
+      child: BlocProvider(
+        create: (context) => AuthBloc(
+          RepositoryProvider.of<AuthMethods>(context),
+        ),
+        child: MaterialApp(
+          title: 'Shop it',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: backgroundColor,
           ),
-        ],
-        child: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, AsyncSnapshot<User?> user) {
-              if (user.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: buttonColor,
-                  ),
-                );
-              } else if (user.hasData) {
-                return ScreenLayout();
-              } else {
-                return SigninScreen();
-              }
-            }),
+          // To check whether user is logged in or not. If not than it will show the login screen to the user. If yes than user will get the homepage.
+
+          home: StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, AsyncSnapshot<User?> user) {
+                if (user.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: buttonColor,
+                    ),
+                  );
+                } else if (user.hasData) {
+                  return ScreenLayout();
+                } else {
+                  return SigninScreen();
+                }
+              }),
+        ),
       ),
     );
   }

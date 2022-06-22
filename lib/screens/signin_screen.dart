@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopit/layout/blocs/AuthBloc/auth_bloc.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/screens/signup_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
@@ -88,37 +90,28 @@ class _SigninScreenState extends State<SigninScreen> {
                         Center(
                           child: Hero(
                             tag: 2,
-                            child: PrimaryButton(
-                              child: Text(
-                                'Sign in',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                              color: buttonColor,
-                              isLoading: isLoading,
-                              onPressed: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                                String output = await authMethods.signInUser(
-                                  email: emailController.text,
-                                  password: passwordController.text,
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                return PrimaryButton(
+                                  child: Text(
+                                    'Sign in',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  color: buttonColor,
+                                  isLoading:
+                                      state is AuthLoading ? true : false,
+                                  onPressed: () async {
+                                    context.read<AuthBloc>().add(
+                                          SigninUserEvent(
+                                            password: passwordController.text,
+                                            email: emailController.text,
+                                            context: context,
+                                          ),
+                                        );
+                                  },
                                 );
-                                if (output == 'Login Successful') {
-                                  Utils().showsnackBar(
-                                    context: context,
-                                    message: output,
-                                  );
-                                } else {
-                                  Utils().showsnackBar(
-                                    context: context,
-                                    message: output,
-                                  );
-                                }
-                                setState(() {
-                                  isLoading = false;
-                                });
                               },
                             ),
                           ),
@@ -186,3 +179,27 @@ class _SigninScreenState extends State<SigninScreen> {
     );
   }
 }
+
+
+
+                                // setState(() {
+                                //   isLoading = true;
+                                // });
+                                // String output = await authMethods.signInUser(
+                                //   email: emailController.text,
+                                //   password: passwordController.text,
+                                // );
+                                // if (output == 'Login Successful') {
+                                //   Utils().showsnackBar(
+                                //     context: context,
+                                //     message: output,
+                                //   );
+                                // } else {
+                                //   Utils().showsnackBar(
+                                //     context: context,
+                                //     message: output,
+                                //   );
+                                // }
+                                // setState(() {
+                                //   isLoading = false;
+                                // });

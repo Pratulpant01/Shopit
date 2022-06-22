@@ -46,5 +46,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
       emit(AuthLoaded());
     });
+// To login user using existing email and password.
+
+    on<SigninUserEvent>((event, emit) async {
+      emit(AuthLoading());
+      final result = await authMethods.signInUser(
+        email: event.email,
+        password: event.password,
+      );
+      if (result == 'Login Successful') {
+        Utils().showsnackBar(
+          context: event.context,
+          message: result,
+        );
+      } else {
+        Utils().showsnackBar(
+          context: event.context,
+          message: result,
+        );
+
+        emit(AuthLoaded());
+      }
+    });
   }
 }
