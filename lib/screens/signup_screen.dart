@@ -3,16 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shopit/layout/blocs/AuthBloc/auth_bloc.dart';
+import 'package:shopit/blocs/AuthBloc/auth_bloc.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/screens/signin_screen.dart';
 
 import 'package:shopit/utils/color_themes.dart';
 
 import '../utils/utils.dart';
-import '../utils/widgets/primary_button.dart';
-import '../utils/widgets/text_button.dart';
-import '../utils/widgets/textfield_widget.dart';
+import '../widgets/primary_button.dart';
+import '../widgets/text_button.dart';
+import '../widgets/textfield_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);

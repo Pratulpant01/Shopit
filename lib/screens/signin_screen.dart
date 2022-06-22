@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shopit/layout/blocs/AuthBloc/auth_bloc.dart';
+import 'package:shopit/blocs/AuthBloc/auth_bloc.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/screens/signup_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/utils.dart';
-import 'package:shopit/utils/widgets/primary_button.dart';
-import 'package:shopit/utils/widgets/textfield_widget.dart';
+import 'package:shopit/widgets/primary_button.dart';
+import 'package:shopit/widgets/textfield_widget.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);

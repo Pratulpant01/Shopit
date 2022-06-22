@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopit/utils/color_themes.dart';
+import 'package:shopit/utils/constants.dart';
 
 class ScreenLayout extends StatefulWidget {
   const ScreenLayout({Key? key}) : super(key: key);
@@ -34,20 +35,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
       child: Scaffold(
         body: PageView(
           controller: pageController,
-          children: [
-            Center(
-              child: Text('This is Home Screen'),
-            ),
-            Center(
-              child: Text('This is Cart Screen'),
-            ),
-            Center(
-              child: Text('This is Account Screen'),
-            ),
-            Center(
-              child: Text('This is Profile Screen'),
-            ),
-          ],
+          children: tabScreens,
         ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -60,7 +48,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
               indicator: const BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: activeCyanColor,
+                    color: buttonColor,
                     width: 2,
                   ),
                 ),
@@ -70,26 +58,30 @@ class _ScreenLayoutState extends State<ScreenLayout> {
               tabs: [
                 Tab(
                   child: Icon(
-                    Icons.home_outlined,
-                    color: currentPage == 0 ? activeCyanColor : buttonColor,
+                    currentPage == 0 ? Icons.home : Icons.home_outlined,
+                    color: currentPage == 0 ? buttonColor : buttonColor,
                   ),
                 ),
                 Tab(
                   child: Icon(
-                    Icons.shopping_cart_outlined,
-                    color: currentPage == 1 ? activeCyanColor : buttonColor,
+                    currentPage == 1
+                        ? Icons.shopping_cart
+                        : Icons.shopping_cart_outlined,
+                    color: currentPage == 1 ? buttonColor : buttonColor,
                   ),
                 ),
                 Tab(
                   child: Icon(
-                    Icons.account_circle_outlined,
-                    color: currentPage == 2 ? activeCyanColor : buttonColor,
+                    currentPage == 2
+                        ? Icons.account_circle
+                        : Icons.account_circle_outlined,
+                    color: currentPage == 2 ? buttonColor : buttonColor,
                   ),
                 ),
                 Tab(
                   child: Icon(
-                    Icons.menu,
-                    color: currentPage == 3 ? activeCyanColor : buttonColor,
+                    currentPage == 3 ? Icons.menu_outlined : Icons.menu,
+                    color: currentPage == 3 ? buttonColor : buttonColor,
                   ),
                 ),
               ]),
