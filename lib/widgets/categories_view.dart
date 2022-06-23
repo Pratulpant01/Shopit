@@ -27,6 +27,7 @@ class CategoriesView extends StatelessWidget {
                 ),
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
                   CircleAvatar(
+                    backgroundColor: Colors.white,
                     backgroundImage: AssetImage(
                       categoryLogos[index],
                     ),

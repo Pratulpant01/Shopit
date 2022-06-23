@@ -18,6 +18,6 @@ const List<Color> backgroundGradient = [
 ]; //Cyan, and a mix of Cyan and Green
 
 const List<Color> lightBackgroundaGradient = [
-  Color(0xffa2e0eb),
-  Color.fromARGB(255, 200, 228, 218),
+  Color.fromARGB(255, 33, 69, 99),
+  Color.fromARGB(255, 48, 105, 151),
 ];

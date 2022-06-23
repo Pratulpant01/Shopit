@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopit/screens/account_screen.dart';
 import 'package:shopit/screens/home_screen.dart';
 
 const double kAppBarHeight = 80;
@@ -8,9 +9,7 @@ const List<Widget> tabScreens = [
   Center(
     child: Text('This is Cart Screen'),
   ),
-  Center(
-    child: Text('This is Account Screen'),
-  ),
+  AccountScreen(),
   Center(
     child: Text('This is Profile Screen'),
   ),
