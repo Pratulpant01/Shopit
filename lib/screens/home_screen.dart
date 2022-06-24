@@ -24,21 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   double offset = 0;
   ScrollController controller = ScrollController();
 
-  List<Widget> products = [
-    ProductWidget(
-        productName: 'Samsung Ac',
-        url: 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg'),
-    ProductWidget(
-        productName: 'Realme Narzo 6',
-        url: 'https://m.media-amazon.com/images/I/7136zgtNmJL._SL1500_.jpg'),
-    ProductWidget(
-        productName: 'LG Fridge',
-        url: 'https://m.media-amazon.com/images/I/71PjRr580lL._SL1500_.jpg'),
-    ProductWidget(
-        productName: 'Samsung Microwave',
-        url: 'https://m.media-amazon.com/images/I/717Kju6Tu2L._SL1500_.jpg'),
-  ];
-
   @override
   void initState() {
     // TODO: implement initState
@@ -89,15 +74,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       BannerAdWidget(),
                       ProductsShowCase(
                         title: '70% Off Sale',
-                        children: products,
+                        children: Demoproducts,
                       ),
                       ProductsShowCase(
                         title: '50% Off Sale',
-                        children: products,
+                        children: Demoproducts,
                       ),
                       ProductsShowCase(
                         title: '20% Off Sale',
-                        children: products,
+                        children: Demoproducts,
                       )
                     ]),
                   ),

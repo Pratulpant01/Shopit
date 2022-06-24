@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:shopit/screens/account_screen.dart';
+import 'package:shopit/screens/cart_screen.dart';
 import 'package:shopit/screens/home_screen.dart';
+
+import '../widgets/product_widget.dart';
 
 const double kAppBarHeight = 80;
 
 const List<Widget> tabScreens = [
   HomeScreen(),
-  Center(
-    child: Text('This is Cart Screen'),
-  ),
+  CartScreen(),
   AccountScreen(),
   Center(
     child: Text('This is Profile Screen'),
@@ -53,4 +54,19 @@ const List<String> adItemNames = [
   "Recharge",
   "Rewards",
   "Pay Bills"
+];
+
+List<Widget> Demoproducts = [
+  ProductWidget(
+      productName: 'Samsung Ac',
+      url: 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg'),
+  ProductWidget(
+      productName: 'Realme Narzo 6',
+      url: 'https://m.media-amazon.com/images/I/7136zgtNmJL._SL1500_.jpg'),
+  ProductWidget(
+      productName: 'LG Fridge',
+      url: 'https://m.media-amazon.com/images/I/71PjRr580lL._SL1500_.jpg'),
+  ProductWidget(
+      productName: 'Samsung Microwave',
+      url: 'https://m.media-amazon.com/images/I/717Kju6Tu2L._SL1500_.jpg'),
 ];
