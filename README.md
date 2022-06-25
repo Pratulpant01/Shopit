@@ -16,7 +16,7 @@ A complete shopping app with amazing UI designs and functionality using Flutter,
 5. Advertisement Banner added.
 6. Sell feature is added.
 7. 'Your orders' details added
-8. 
+8. Cart Screen Added
 
 
 
