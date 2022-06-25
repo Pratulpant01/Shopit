@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/utils/color_themes.dart';
+import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
 
 class ProductsShowCase extends StatelessWidget {
@@ -43,11 +44,7 @@ class ProductsShowCase extends StatelessWidget {
                 ),
                 child: Text(
                   'View more',
-                  style: GoogleFonts.actor(
-                    fontSize: 15,
-                    color: orangeColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: linkButtonStyle,
                 ),
               )
             ],

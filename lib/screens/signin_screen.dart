@@ -6,7 +6,7 @@ import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/screens/signup_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/utils.dart';
-import 'package:shopit/widgets/primary_button.dart';
+import 'package:shopit/widgets/Buttons/primary_button.dart';
 import 'package:shopit/widgets/textfield_widget.dart';
 
 class SigninScreen extends StatefulWidget {

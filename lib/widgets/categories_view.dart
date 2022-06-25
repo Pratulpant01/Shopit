@@ -37,10 +37,7 @@ class CategoriesView extends StatelessWidget {
                   ),
                   Text(
                     categoriesList[index],
-                    style: GoogleFonts.adventPro(
-                      color: buttonColor,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: productShortLabelStyle,
                   )
                 ]),
               );

@@ -10,8 +10,8 @@ import 'package:shopit/screens/signin_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 
 import '../utils/utils.dart';
-import '../widgets/primary_button.dart';
-import '../widgets/text_button.dart';
+import '../widgets/Buttons/primary_button.dart';
+import '../widgets/Buttons/text_button.dart';
 import '../widgets/textfield_widget.dart';
 
 class SignUpScreen extends StatefulWidget {

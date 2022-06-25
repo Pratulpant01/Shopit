@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/screens/account_screen.dart';
 import 'package:shopit/screens/cart_screen.dart';
 import 'package:shopit/screens/home_screen.dart';
 
 import '../widgets/product_widget.dart';
+import 'color_themes.dart';
 
 const double kAppBarHeight = 80;
 
@@ -70,3 +72,25 @@ List<Widget> Demoproducts = [
       productName: 'Samsung Microwave',
       url: 'https://m.media-amazon.com/images/I/717Kju6Tu2L._SL1500_.jpg'),
 ];
+
+TextStyle productNameStyle = GoogleFonts.akshar(
+  fontSize: 15,
+  fontWeight: FontWeight.bold,
+);
+
+TextStyle productShortLabelStyle = GoogleFonts.adventPro(
+  color: buttonColor,
+  fontWeight: FontWeight.bold,
+);
+
+TextStyle buttonTitleStyle = GoogleFonts.abel(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  color: Colors.white,
+);
+
+TextStyle linkButtonStyle = GoogleFonts.actor(
+  fontSize: 15,
+  color: orangeColor,
+  fontWeight: FontWeight.bold,
+);

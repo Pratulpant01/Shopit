@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/account_screen_appBar.dart';
-import 'package:shopit/widgets/primary_button.dart';
+import 'package:shopit/widgets/Buttons/primary_button.dart';
 import 'package:shopit/widgets/product_show_list.dart';
 
 import '../utils/utils.dart';

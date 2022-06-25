@@ -12,7 +12,7 @@ const Color lightbuttonColor = Color.fromARGB(255, 40, 82, 117);
 
 const Color darkColor = Color(0xff1C1C1C);
 
-const Color orangeColor = Color(0xffF46802);
+const Color orangeColor = Color.fromARGB(255, 210, 108, 36);
 
 const List<Color> backgroundGradient = [
   Color(0xff122636),
