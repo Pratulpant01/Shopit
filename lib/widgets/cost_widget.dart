@@ -28,10 +28,12 @@ class CostWidget extends StatelessWidget {
             ],
           ),
         ),
-        Text(
-          cost.toString(),
-          style: GoogleFonts.acme(
-            fontSize: 24,
+        Flexible(
+          child: Text(
+            cost.toString(),
+            style: GoogleFonts.acme(
+              fontSize: 24,
+            ),
           ),
         ),
       ],

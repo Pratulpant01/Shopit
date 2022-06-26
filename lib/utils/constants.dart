@@ -4,6 +4,7 @@ import 'package:shopit/screens/account_screen.dart';
 import 'package:shopit/screens/cart_screen.dart';
 import 'package:shopit/screens/home_screen.dart';
 
+import '../screens/more_screen.dart';
 import '../widgets/product_widget.dart';
 import 'color_themes.dart';
 
@@ -13,9 +14,7 @@ const List<Widget> tabScreens = [
   HomeScreen(),
   CartScreen(),
   AccountScreen(),
-  Center(
-    child: Text('This is Profile Screen'),
-  ),
+  MoreScreen(),
 ];
 
 const List<String> categoriesList = [

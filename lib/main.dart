@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopit/blocs/AuthBloc/auth_bloc.dart';
 import 'package:shopit/layout/screen_layout.dart';
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
           title: 'Shop it',
           debugShowCheckedModeBanner: false,
           theme: ThemeData.light().copyWith(
-            scaffoldBackgroundColor: backgroundColor,
+            scaffoldBackgroundColor: backgroundColor1,
           ),
           // To check whether user is logged in or not. If not than it will show the login screen to the user. If yes than user will get the homepage.
 

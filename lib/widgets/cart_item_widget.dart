@@ -24,7 +24,7 @@ class CartItemWidget extends StatelessWidget {
       height: screenSize.height / 2.5,
       width: screenSize.width,
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: Colors.white,
         border: Border(
           bottom: BorderSide(
             color: Colors.grey,

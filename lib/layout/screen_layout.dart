@@ -1,10 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 
 class ScreenLayout extends StatefulWidget {
-  const ScreenLayout({Key? key}) : super(key: key);
+  int currentPage;
+  ScreenLayout({
+    Key? key,
+    this.currentPage = 0,
+  }) : super(key: key);
 
   @override
   State<ScreenLayout> createState() => _ScreenLayoutState();
@@ -12,7 +18,6 @@ class ScreenLayout extends StatefulWidget {
 
 class _ScreenLayoutState extends State<ScreenLayout> {
   PageController pageController = PageController();
-  int currentPage = 0;
 
   @override
   void dispose() {
@@ -22,9 +27,10 @@ class _ScreenLayoutState extends State<ScreenLayout> {
   }
 
   changePage(int page) {
+    print(widget.currentPage);
     pageController.jumpToPage(page);
     setState(() {
-      currentPage = page;
+      widget.currentPage = page;
     });
   }
 
@@ -32,6 +38,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
+      initialIndex: widget.currentPage,
       child: Scaffold(
         body: PageView(
           controller: pageController,
@@ -58,30 +65,30 @@ class _ScreenLayoutState extends State<ScreenLayout> {
               tabs: [
                 Tab(
                   child: Icon(
-                    currentPage == 0 ? Icons.home : Icons.home_outlined,
-                    color: currentPage == 0 ? buttonColor : buttonColor,
+                    widget.currentPage == 0 ? Icons.home : Icons.home_outlined,
+                    color: widget.currentPage == 0 ? buttonColor : buttonColor,
                   ),
                 ),
                 Tab(
                   child: Icon(
-                    currentPage == 1
+                    widget.currentPage == 1
                         ? Icons.shopping_cart
                         : Icons.shopping_cart_outlined,
-                    color: currentPage == 1 ? buttonColor : buttonColor,
+                    color: widget.currentPage == 1 ? buttonColor : buttonColor,
                   ),
                 ),
                 Tab(
                   child: Icon(
-                    currentPage == 2
+                    widget.currentPage == 2
                         ? Icons.account_circle
                         : Icons.account_circle_outlined,
-                    color: currentPage == 2 ? buttonColor : buttonColor,
+                    color: widget.currentPage == 2 ? buttonColor : buttonColor,
                   ),
                 ),
                 Tab(
                   child: Icon(
-                    currentPage == 3 ? Icons.menu_outlined : Icons.menu,
-                    color: currentPage == 3 ? buttonColor : buttonColor,
+                    widget.currentPage == 3 ? Icons.menu_outlined : Icons.menu,
+                    color: widget.currentPage == 3 ? buttonColor : buttonColor,
                   ),
                 ),
               ]),

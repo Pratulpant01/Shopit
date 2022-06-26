@@ -109,9 +109,9 @@ class user_intro_widget extends StatelessWidget {
       height: kAppBarHeight,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: backgroundGradient,
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
+          colors: backgroundGradient1,
+          begin: Alignment.topCenter,
+          end: Alignment.topCenter,
         ),
       ),
       child: Container(

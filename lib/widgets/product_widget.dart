@@ -23,6 +23,10 @@ class ProductWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Colors.grey.shade100,
+            width: 2,
+          ),
         ),
         child: Padding(
             padding: EdgeInsets.all(
