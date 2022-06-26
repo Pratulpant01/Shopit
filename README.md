@@ -7,6 +7,8 @@ A complete shopping app with amazing UI designs and functionality using Flutter,
 2. Home Screen
 3. Account Screen
 4. Search Bar Screen
+5. Cart Screen Added
+6. Category Screen
 
 **Features Added**
 1. Firebase used for authentication.
@@ -17,6 +19,7 @@ A complete shopping app with amazing UI designs and functionality using Flutter,
 6. Sell feature is added.
 7. 'Your orders' details added
 8. Cart Screen Added
+9. Category Screen Added.
 
 
 
