@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopit/models/product_model.dart';
+import 'package:shopit/screens/product_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -21,7 +22,7 @@ class CartItemWidget extends StatelessWidget {
     Size screenSize = Utils().getScreenSize();
     return Container(
       padding: EdgeInsets.all(20),
-      height: screenSize.height / 2.5,
+      height: screenSize.height / 3,
       width: screenSize.width,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -35,91 +36,115 @@ class CartItemWidget extends StatelessWidget {
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         Expanded(
           flex: 2,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: screenSize.width / 3,
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Image.network(
-                    product.imgUrl,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductScreen(
+                    productModel: product,
                   ),
                 ),
-              ),
-              SizedBox(
-                width: screenSize.width * 0.03,
-              ),
-              ProductInformationWidget(
-                productName: product.productName,
-                productCost: product.productPrice,
-                sellerName: product.sellerName,
-              ),
-            ],
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: screenSize.width / 3,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Image.network(
+                      product.imgUrl,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: screenSize.width * 0.03,
+                ),
+                ProductInformationWidget(
+                  productName: product.productName,
+                  productCost: product.productPrice,
+                  sellerName: product.sellerName,
+                ),
+              ],
+            ),
           ),
         ),
         Expanded(
           flex: 1,
           child: Row(
-            children: [
-              CustomSquareButton(
-                color: backgroundColor,
-                widget: Icon(
-                  Icons.remove,
-                ),
-                onPressed: () {},
-                dimension: screenSize.height * 0.05,
-              ),
-              CustomSquareButton(
-                color: Colors.white,
-                widget: Text(
-                  '0',
-                  style: TextStyle(
-                    color: activeCyanColor,
-                  ),
-                ),
-                onPressed: () {},
-                dimension: screenSize.height * 0.05,
-              ),
-              CustomSquareButton(
-                color: backgroundColor,
-                widget: Icon(
-                  Icons.add,
-                ),
-                onPressed: () {},
-                dimension: screenSize.height * 0.05,
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  CustomRoundedButton(buttonTitle: 'Delete', onPressed: () {}),
+                  CustomSquareButton(
+                    color: backgroundColor,
+                    widget: Icon(
+                      Icons.remove,
+                    ),
+                    onPressed: () {},
+                    dimension: screenSize.height * 0.05,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 1,
+                      right: 1,
+                    ),
+                    child: CustomSquareButton(
+                      color: Colors.white,
+                      widget: Text(
+                        '0',
+                        style: TextStyle(
+                          color: activeCyanColor,
+                        ),
+                      ),
+                      onPressed: () {},
+                      dimension: screenSize.height * 0.05,
+                    ),
+                  ),
+                  CustomSquareButton(
+                    color: backgroundColor,
+                    widget: Icon(
+                      Icons.add,
+                    ),
+                    onPressed: () {},
+                    dimension: screenSize.height * 0.05,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  CustomRoundedButton(
+                    buttonTitle: 'Delete',
+                    onPressed: () {},
+                    color: buttonColor,
+                    textColor: Colors.white,
+                  ),
                   SizedBox(
                     width: screenSize.width * 0.02,
                   ),
                   CustomRoundedButton(
-                      buttonTitle: 'Save for Later', onPressed: () {})
+                    buttonTitle: 'Save for Later',
+                    onPressed: () {},
+                    color: buttonColor,
+                    textColor: Colors.white,
+                  )
                 ],
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 15,
-                  ),
-                  child: Text(
-                    'See more like this',
-                    style: linkButtonStyle,
-                  ),
-                ),
-              )
             ],
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 15,
+            ),
+            child: Text(
+              'See more like this',
+              style: linkButtonStyle,
+            ),
           ),
         ),
       ]),

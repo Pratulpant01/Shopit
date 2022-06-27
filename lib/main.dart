@@ -6,8 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopit/blocs/AuthBloc/auth_bloc.dart';
 import 'package:shopit/layout/screen_layout.dart';
 import 'package:shopit/resources/auth_methods.dart';
+import 'package:shopit/screens/home_screen.dart';
+import 'package:shopit/screens/product_screen.dart';
 import 'package:shopit/screens/signin_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
+
+import 'models/product_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

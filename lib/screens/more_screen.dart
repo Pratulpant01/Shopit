@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/category_widget.dart';
+import 'package:shopit/widgets/parent_appBar_widget.dart';
 import 'package:shopit/widgets/searchbar_widget.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -9,9 +10,8 @@ class MoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SearchBarWidget(
-        hasBackButton: false,
-        isReadOnly: true,
+      appBar: ParentAppBarWidget(
+        hasBack: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shopit/models/userdetail_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/screens/search_screen.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
 import 'package:shopit/widgets/banner_widget.dart';
+import 'package:shopit/widgets/bubble_icon_widget.dart';
+import 'package:shopit/widgets/parent_appBar_widget.dart';
 import 'package:shopit/widgets/product_show_list.dart';
 import 'package:shopit/widgets/product_widget.dart';
 import 'package:shopit/widgets/searchbar_widget.dart';
@@ -53,10 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = Utils().getScreenSize();
+
     return Scaffold(
-        appBar: SearchBarWidget(
-          isReadOnly: true,
-          hasBackButton: false,
+        appBar: ParentAppBarWidget(
+          hasBack: false,
         ),
         body: isLoading
             ? Center(
@@ -88,8 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   UserDetailsBar(
                     offset: offset,
-                    name: userData['name'],
-                    address: userData['address'],
+                    userDetailModel: UserDetailModel(
+                      address: userData['address'],
+                      name: userData['name'],
+                    ),
                   )
                 ],
               ));

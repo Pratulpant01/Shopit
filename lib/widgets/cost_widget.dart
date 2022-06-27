@@ -23,6 +23,7 @@ class CostWidget extends StatelessWidget {
           '₹',
           style: TextStyle(
             fontSize: 10,
+            color: color,
             fontFeatures: [
               FontFeature.superscripts(),
             ],
@@ -33,6 +34,7 @@ class CostWidget extends StatelessWidget {
             cost.toString(),
             style: GoogleFonts.acme(
               fontSize: 24,
+              color: color,
             ),
           ),
         ),

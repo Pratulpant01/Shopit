@@ -4,6 +4,7 @@ import 'package:shopit/screens/account_screen.dart';
 import 'package:shopit/screens/cart_screen.dart';
 import 'package:shopit/screens/home_screen.dart';
 
+import '../models/product_model.dart';
 import '../screens/more_screen.dart';
 import '../widgets/product_widget.dart';
 import 'color_themes.dart';
@@ -59,25 +60,84 @@ const List<String> adItemNames = [
 
 List<Widget> Demoproducts = [
   ProductWidget(
-      productName: 'Samsung Ac',
-      url: 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg'),
+    productModel: ProductModel(
+      productName:
+          'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
+      imgUrl: 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
+      productPrice: 16000,
+      productDiscount: 0,
+      uid: '12',
+      sellerName: 'Samsung',
+      sellerUid: 'samsung',
+      rating: 5,
+      numberOfRating: 10,
+    ),
+  ),
   ProductWidget(
-      productName: 'Realme Narzo 6',
-      url: 'https://m.media-amazon.com/images/I/7136zgtNmJL._SL1500_.jpg'),
+    productModel: ProductModel(
+      productName:
+          'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
+      imgUrl: 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
+      productPrice: 16000,
+      productDiscount: 0,
+      uid: '12',
+      sellerName: 'Samsung',
+      sellerUid: 'samsung',
+      rating: 3,
+      numberOfRating: 10,
+    ),
+  ),
   ProductWidget(
-      productName: 'LG Fridge',
-      url: 'https://m.media-amazon.com/images/I/71PjRr580lL._SL1500_.jpg'),
+    productModel: ProductModel(
+      productName:
+          'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
+      imgUrl: 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
+      productPrice: 16000,
+      productDiscount: 0,
+      uid: '12',
+      sellerName: 'Samsung',
+      sellerUid: 'samsung',
+      rating: 1,
+      numberOfRating: 10,
+    ),
+  ),
   ProductWidget(
-      productName: 'Samsung Microwave',
-      url: 'https://m.media-amazon.com/images/I/717Kju6Tu2L._SL1500_.jpg'),
+    productModel: ProductModel(
+      productName:
+          'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
+      imgUrl: 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
+      productPrice: 16000,
+      productDiscount: 0,
+      uid: '12',
+      sellerName: 'Samsung',
+      sellerUid: 'samsung',
+      rating: 2,
+      numberOfRating: 10,
+    ),
+  ),
 ];
 
+List<String> keysOfRating = [
+  'Very Bad',
+  'Poor',
+  'Average',
+  'Good',
+  'Excellent',
+];
+
+// Text Styles
+
 TextStyle productNameStyle = GoogleFonts.akshar(
-  fontSize: 15,
+  fontSize: 17,
   fontWeight: FontWeight.bold,
 );
 
 TextStyle productShortLabelStyle = GoogleFonts.adventPro(
+  color: buttonColor,
+  fontWeight: FontWeight.bold,
+);
+
+TextStyle descriptionStyle = GoogleFonts.akayaTelivigala(
   color: buttonColor,
   fontWeight: FontWeight.bold,
 );

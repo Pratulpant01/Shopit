@@ -16,6 +16,8 @@ const Color darkColor = Color(0xff1C1C1C);
 
 const Color orangeColor = Color.fromARGB(255, 255, 159, 15);
 
+const Color priceColor = Color(0xffB12705);
+
 const List<Color> backgroundGradient = [
   Color(0xff122636),
   Color.fromARGB(255, 30, 70, 102),

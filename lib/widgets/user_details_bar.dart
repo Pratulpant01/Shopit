@@ -2,19 +2,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:shopit/models/userdetail_model.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
 
 class UserDetailsBar extends StatelessWidget {
   final double offset;
-  final String name;
-  final String address;
+  final UserDetailModel userDetailModel;
+
   const UserDetailsBar({
     Key? key,
     required this.offset,
-    required this.name,
-    required this.address,
+    required this.userDetailModel,
   }) : super(key: key);
 
   @override
@@ -49,7 +49,7 @@ class UserDetailsBar extends StatelessWidget {
             ),
             Flexible(
               child: Text(
-                'Deliver to ${name} - ${address}',
+                'Deliver to ${userDetailModel.name} - ${userDetailModel.address}',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.abel(

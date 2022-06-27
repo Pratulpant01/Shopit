@@ -1,15 +1,21 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 
 class CustomRoundedButton extends StatelessWidget {
   final String buttonTitle;
   final VoidCallback onPressed;
+  final Color color;
+  final Color textColor;
+
   const CustomRoundedButton({
     Key? key,
     required this.buttonTitle,
     required this.onPressed,
+    required this.color,
+    required this.textColor,
   }) : super(key: key);
 
   @override
@@ -24,12 +30,13 @@ class CustomRoundedButton extends StatelessWidget {
             width: 1,
           ),
           borderRadius: BorderRadius.circular(3),
-          color: lightbuttonColor,
+          color: color,
         ),
         child: Text(
           buttonTitle,
           style: buttonTitleStyle.copyWith(
             fontWeight: FontWeight.w300,
+            color: textColor,
           ),
         ),
       ),

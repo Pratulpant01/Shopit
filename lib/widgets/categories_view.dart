@@ -4,23 +4,33 @@ import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
 
+import '../screens/result_screen.dart';
+
 class CategoriesView extends StatelessWidget {
   const CategoriesView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = Utils().getScreenSize();
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        height: kAppBarHeight,
-        width: double.infinity,
-        color: Colors.white,
-        child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: categoriesList.length,
-            itemBuilder: (context, index) {
-              return Padding(
+    return Container(
+      height: kAppBarHeight,
+      width: double.infinity,
+      color: Colors.white,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: categoriesList.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ResultScreen(query: categoriesList[index]),
+                  ),
+                );
+              },
+              child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 8,
                   horizontal: 15,
@@ -40,9 +50,9 @@ class CategoriesView extends StatelessWidget {
                     style: productShortLabelStyle,
                   )
                 ]),
-              );
-            }),
-      ),
+              ),
+            );
+          }),
     );
   }
 }

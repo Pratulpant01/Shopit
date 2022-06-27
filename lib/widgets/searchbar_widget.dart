@@ -12,6 +12,7 @@ import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 
 import '../utils/utils.dart';
+import 'bubble_icon_widget.dart';
 
 class SearchBarWidget extends StatelessWidget with PreferredSizeWidget {
   final bool isReadOnly;
@@ -93,75 +94,17 @@ class SearchBarWidget extends StatelessWidget with PreferredSizeWidget {
             ),
             isReadOnly
                 ? bubbleIcon(
-                    screenSize: screenSize,
                     iconName: Icon(
                       Icons.shopping_bag_outlined,
                       size: screenSize.height * 0.03,
                     ),
                     iconValue: '1',
+                    onPress: () {},
                   )
-                : SizedBox(),
-            isReadOnly
-                ? bubbleIcon(
-                    iconName: Icon(
-                      Icons.favorite_outline,
-                      size: screenSize.height * .03,
-                    ),
-                    iconValue: '',
-                    screenSize: screenSize)
                 : SizedBox(),
           ],
         ),
       ),
-    );
-  }
-}
-
-class bubbleIcon extends StatelessWidget {
-  final Icon iconName;
-  final String iconValue;
-  const bubbleIcon({
-    Key? key,
-    required this.iconName,
-    required this.iconValue,
-    required this.screenSize,
-  }) : super(key: key);
-
-  final Size screenSize;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        IconButton(
-          onPressed: () {},
-          icon: iconName,
-        ),
-        Positioned(
-          right: 5,
-          bottom: 5,
-          child: iconValue != ''
-              ? CircleAvatar(
-                  radius: 9,
-                  backgroundColor: buttonColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Text(
-                      iconValue,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 8,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                )
-              : SizedBox(),
-        ),
-      ],
     );
   }
 }
