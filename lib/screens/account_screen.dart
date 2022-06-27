@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopit/blocs/Firestore%20bloc/firestore_bloc.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/account_screen_appBar.dart';
@@ -133,25 +135,36 @@ class user_intro_widget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 horizontal: 17,
               ),
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Hello, ',
-                      style: GoogleFonts.aBeeZee(
-                        fontSize: 26,
-                        color: Colors.black,
+              child: BlocBuilder<FirestoreBloc, FirestoreState>(
+                builder: (context, state) {
+                  if (state is FirestoreLoading) {
+                    return Container();
+                  }
+                  if (state is FirestoreLoaded) {
+                    return RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Hello, ',
+                            style: GoogleFonts.aBeeZee(
+                              fontSize: 26,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                              text: state.userData.name,
+                              style: GoogleFonts.aBeeZee(
+                                fontSize: 26,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ],
                       ),
-                    ),
-                    TextSpan(
-                        text: 'Rahul',
-                        style: GoogleFonts.aBeeZee(
-                          fontSize: 26,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ],
-                ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
               ),
             ),
             Padding(

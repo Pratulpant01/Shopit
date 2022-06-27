@@ -71,10 +71,6 @@ class _CartScreenState extends State<CartScreen> {
           ),
           UserDetailsBar(
             offset: 0,
-            userDetailModel: UserDetailModel(
-              name: 'Rahul',
-              address: 'Delhi NCR- 201310',
-            ),
           ),
         ],
       ),

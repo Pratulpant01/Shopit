@@ -14,11 +14,14 @@ class FirestoreMethods {
         );
   }
 
-  getUserDetails() async {
-    var userSnap = await firestore
+  Future<UserDetailModel> getUserDetails() async {
+    final userSnap = await firestore
         .collection('users')
         .doc(firebaseAuth.currentUser!.uid)
         .get();
-    return userSnap;
+
+    final userData = UserDetailModel.fromJson(userSnap.data()!);
+
+    return userData;
   }
 }

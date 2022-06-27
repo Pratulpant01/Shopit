@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopit/blocs/Firestore%20bloc/firestore_bloc.dart';
 import 'package:shopit/models/userdetail_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/screens/search_screen.dart';
@@ -23,29 +25,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var userData = {};
-  bool isLoading = false;
   double offset = 0;
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller.addListener(() {
       setState(() {
         offset = controller.position.pixels;
       });
     });
-    getUser();
-  }
-
-  getUser() async {
-    isLoading = true;
-    var userDetails = await FirestoreMethods().getUserDetails();
-    userData = userDetails.data();
-    setState(() {});
-    isLoading = false;
   }
 
   @override
@@ -63,42 +53,34 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: ParentAppBarWidget(
           hasBack: false,
         ),
-        body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Stack(
-                children: [
-                  SingleChildScrollView(
-                    controller: controller,
-                    child: Column(children: [
-                      SizedBox(
-                        height: kAppBarHeight / 2,
-                      ),
-                      CategoriesView(),
-                      BannerAdWidget(),
-                      ProductsShowCase(
-                        title: '70% Off Sale',
-                        children: Demoproducts,
-                      ),
-                      ProductsShowCase(
-                        title: '50% Off Sale',
-                        children: Demoproducts,
-                      ),
-                      ProductsShowCase(
-                        title: '20% Off Sale',
-                        children: Demoproducts,
-                      )
-                    ]),
-                  ),
-                  UserDetailsBar(
-                    offset: offset,
-                    userDetailModel: UserDetailModel(
-                      address: userData['address'],
-                      name: userData['name'],
-                    ),
-                  )
-                ],
-              ));
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              controller: controller,
+              child: Column(children: [
+                SizedBox(
+                  height: kAppBarHeight / 2,
+                ),
+                CategoriesView(),
+                BannerAdWidget(),
+                ProductsShowCase(
+                  title: '70% Off Sale',
+                  children: Demoproducts,
+                ),
+                ProductsShowCase(
+                  title: '50% Off Sale',
+                  children: Demoproducts,
+                ),
+                ProductsShowCase(
+                  title: '20% Off Sale',
+                  children: Demoproducts,
+                )
+              ]),
+            ),
+            UserDetailsBar(
+              offset: offset,
+            )
+          ],
+        ));
   }
 }

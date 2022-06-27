@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/models/review_model.dart';
-import 'package:shopit/models/userdetail_model.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -14,7 +13,6 @@ import 'package:shopit/widgets/parent_appBar_widget.dart';
 import 'package:shopit/widgets/rating_star_widget.dart';
 import 'package:shopit/widgets/review_dialog.dart';
 import 'package:shopit/widgets/review_widget.dart';
-import 'package:shopit/widgets/searchbar_widget.dart';
 
 import '../widgets/user_details_bar.dart';
 
@@ -147,10 +145,6 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           UserDetailsBar(
             offset: 0,
-            userDetailModel: UserDetailModel(
-              name: 'Rahul',
-              address: 'Delhi NCR- 201310',
-            ),
           ),
         ],
       ),

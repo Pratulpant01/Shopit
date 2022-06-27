@@ -13,4 +13,11 @@ class UserDetailModel {
       'address': address,
     };
   }
+
+  factory UserDetailModel.fromJson(Map<String, dynamic> json) {
+    return UserDetailModel(
+      name: json['name'],
+      address: json['address'],
+    );
+  }
 }

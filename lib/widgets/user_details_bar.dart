@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopit/blocs/Firestore%20bloc/firestore_bloc.dart';
 
 import 'package:shopit/models/userdetail_model.dart';
 import 'package:shopit/utils/color_themes.dart';
@@ -9,12 +11,10 @@ import 'package:shopit/utils/utils.dart';
 
 class UserDetailsBar extends StatelessWidget {
   final double offset;
-  final UserDetailModel userDetailModel;
 
   const UserDetailsBar({
     Key? key,
     required this.offset,
-    required this.userDetailModel,
   }) : super(key: key);
 
   @override
@@ -32,32 +32,47 @@ class UserDetailsBar extends StatelessWidget {
             end: Alignment.center,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 3,
-            horizontal: 20,
-          ),
-          child: Row(children: [
-            const Padding(
-              padding: EdgeInsets.only(
-                right: 8,
-              ),
-              child: Icon(
-                Icons.location_on_outlined,
-                color: Colors.white,
-              ),
-            ),
-            Flexible(
-              child: Text(
-                'Deliver to ${userDetailModel.name} - ${userDetailModel.address}',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.abel(
+        child: BlocBuilder<FirestoreBloc, FirestoreState>(
+          builder: (context, state) {
+            if (state is FirestoreLoading) {
+              return Center(
+                child: LinearProgressIndicator(
                   color: Colors.white,
                 ),
-              ),
-            )
-          ]),
+              );
+            }
+            if (state is FirestoreLoaded) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 3,
+                  horizontal: 20,
+                ),
+                child: Row(children: [
+                  const Padding(
+                    padding: EdgeInsets.only(
+                      right: 8,
+                    ),
+                    child: Icon(
+                      Icons.location_on_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      'Deliver to ${state.userData.name} - ${state.userData.address}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.abel(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ]),
+              );
+            } else {
+              return Container();
+            }
+          },
         ),
       ),
     );

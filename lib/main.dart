@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopit/blocs/AuthBloc/auth_bloc.dart';
+import 'package:shopit/blocs/Firestore%20bloc/firestore_bloc.dart';
 import 'package:shopit/layout/screen_layout.dart';
 import 'package:shopit/resources/auth_methods.dart';
+import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/screens/home_screen.dart';
 import 'package:shopit/screens/product_screen.dart';
 import 'package:shopit/screens/signin_screen.dart';
@@ -30,12 +32,28 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => AuthMethods(),
-      child: BlocProvider(
-        create: (context) => AuthBloc(
-          RepositoryProvider.of<AuthMethods>(context),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => AuthMethods(),
         ),
+        RepositoryProvider(
+          create: (context) => FirestoreMethods(),
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AuthBloc(
+              RepositoryProvider.of<AuthMethods>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) =>
+                FirestoreBloc(RepositoryProvider.of<FirestoreMethods>(context))
+                  ..add(getUserEvent()),
+          ),
+        ],
         child: MaterialApp(
           title: 'Shop it',
           debugShowCheckedModeBanner: false,

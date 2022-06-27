@@ -14,9 +14,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthMethods authMethods;
-  FirestoreMethods firestoreMethods = FirestoreMethods();
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   AuthBloc(this.authMethods) : super(AuthInitial()) {
     on<SignUpUserEvent>((event, emit) async {
