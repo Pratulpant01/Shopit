@@ -62,6 +62,7 @@ class _CartScreenState extends State<CartScreen> {
                             sellerUid: 'samsung',
                             rating: 5,
                             numberOfRating: 10,
+                            productDescription: productDescriptionList,
                           ),
                         );
                       }),

@@ -6,6 +6,7 @@ class ProductModel {
   final String imgUrl;
   final double productPrice;
   final int productDiscount;
+  final List productDescription;
   final String uid;
   final String sellerName;
   final String sellerUid;
@@ -16,6 +17,7 @@ class ProductModel {
     required this.imgUrl,
     required this.productPrice,
     required this.productDiscount,
+    required this.productDescription,
     required this.uid,
     required this.sellerName,
     required this.sellerUid,

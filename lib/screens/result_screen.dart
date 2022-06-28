@@ -72,6 +72,7 @@ class ResultScreen extends StatelessWidget {
                       sellerUid: 'samsung',
                       rating: 3,
                       numberOfRating: 10,
+                      productDescription: productDescriptionList,
                     ),
                   );
                 }),

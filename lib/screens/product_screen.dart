@@ -113,6 +113,34 @@ class _ProductScreenState extends State<ProductScreen> {
                     onPressed: () {},
                   ),
                   Divider(),
+                  sizedBox,
+                  Text(
+                    'About this item',
+                    style: headingStyle,
+                  ),
+                  sizedBox,
+                  Container(
+                    height: screenSize.height / 2,
+                    child: ListView.builder(
+                        primary: false,
+                        itemCount: productDescriptionList.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '\u2022 ${productDescriptionList[index]}',
+                                style: headingStyle.copyWith(fontSize: 12),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              sizedBox,
+                            ],
+                          );
+                        }),
+                  ),
+                  sizedBox,
                   CustomRoundedButton(
                     buttonTitle: 'Add a review for this product',
                     onPressed: () {
@@ -124,9 +152,11 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: Colors.white,
                     textColor: Colors.black,
                   ),
+                  sizedBox,
                   SizedBox(
                     height: screenSize.height / .2,
                     child: ListView.builder(
+                        primary: false,
                         scrollDirection: Axis.vertical,
                         itemCount: 5,
                         itemBuilder: (context, index) {
