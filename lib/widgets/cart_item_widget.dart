@@ -64,7 +64,7 @@ class CartItemWidget extends StatelessWidget {
                 ),
                 ProductInformationWidget(
                   productName: product.productName,
-                  productCost: product.productPrice,
+                  productCost: product.price,
                   sellerName: product.sellerName,
                 ),
               ],

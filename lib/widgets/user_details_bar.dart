@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shopit/blocs/Firestore%20bloc/firestore_bloc.dart';
+import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 
 import 'package:shopit/models/userdetail_model.dart';
 import 'package:shopit/utils/color_themes.dart';

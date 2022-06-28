@@ -94,8 +94,9 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                   ),
                   CostWidget(
-                      color: priceColor,
-                      cost: widget.productModel.productPrice),
+                    color: priceColor,
+                    cost: widget.productModel.price,
+                  ),
                   SizedBox(
                     height: screenSize.width * .02,
                   ),

@@ -1,10 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopit/blocs/Firestore%20bloc/firestore_bloc.dart';
-import 'package:shopit/models/userdetail_model.dart';
-import 'package:shopit/resources/firestore_methods.dart';
-import 'package:shopit/screens/search_screen.dart';
+
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
 import 'package:shopit/widgets/banner_widget.dart';

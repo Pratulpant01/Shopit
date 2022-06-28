@@ -62,7 +62,7 @@ class ResultsWidget extends StatelessWidget {
             ),
             CostWidget(
               color: Colors.black,
-              cost: product.productPrice,
+              cost: product.price,
             )
           ],
         ),

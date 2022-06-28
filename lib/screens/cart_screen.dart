@@ -55,14 +55,14 @@ class _CartScreenState extends State<CartScreen> {
                                 'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
                             imgUrl:
                                 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
-                            productPrice: 16000,
-                            productDiscount: 0,
+                            price: 16000,
+                            discount: 0,
                             uid: '12',
                             sellerName: 'Samsung',
                             sellerUid: 'samsung',
                             rating: 5,
                             numberOfRating: 10,
-                            productDescription: productDescriptionList,
+                            description: productDescriptionList,
                           ),
                         );
                       }),

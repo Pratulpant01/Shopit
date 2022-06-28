@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopit/blocs/AuthBloc/auth_bloc.dart';
-import 'package:shopit/blocs/Firestore%20bloc/firestore_bloc.dart';
+import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/layout/screen_layout.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/resources/firestore_methods.dart';

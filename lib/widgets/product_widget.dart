@@ -69,7 +69,7 @@ class ProductWidget extends StatelessWidget {
                       flex: 1,
                       child: CostWidget(
                         color: priceColor,
-                        cost: productModel.productPrice,
+                        cost: productModel.price,
                       )),
                 ],
               )),

@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopit/models/product_model.dart';
+import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -21,14 +24,16 @@ class _SellScreenState extends State<SellScreen> {
   TextEditingController productNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  List keysForDiscount = [0, 50, 60, 70];
 
   final bool isLoading = false;
 
-  int selected = 4;
+  int selected = 1;
 
   ImagePicker imagePicker = ImagePicker();
 
   Uint8List? image;
+  List<String> productDescription = [];
 
   @override
   void dispose() {
@@ -36,6 +41,7 @@ class _SellScreenState extends State<SellScreen> {
     super.dispose();
     productNameController.dispose();
     priceController.dispose();
+    descriptionController.dispose();
   }
 
   @override
@@ -150,7 +156,7 @@ class _SellScreenState extends State<SellScreen> {
                                         color: Colors.black,
                                       ),
                                       onPressed: () {
-                                        productDescriptionList
+                                        productDescription
                                             .add(descriptionController.text);
                                         descriptionController.clear();
                                       },
@@ -231,25 +237,27 @@ class _SellScreenState extends State<SellScreen> {
                           child: Text('Sell', style: buttonTitleStyle),
                           color: buttonColor,
                           isLoading: false,
-                          onPressed: () {
-                            Demoproducts.add(
-                              ProductWidget(
-                                productModel: ProductModel(
-                                  productName: productNameController.text,
-                                  imgUrl:
-                                      'https://m.media-amazon.com/images/I/71if9IRsHlL._SY879_.jpg',
-                                  productPrice:
-                                      double.parse(priceController.text),
-                                  productDiscount: selected,
-                                  productDescription: productDescriptionList,
-                                  uid: 'spfsdkodsf',
-                                  sellerName: 'LG',
-                                  sellerUid: 'sajnsdaj',
-                                  rating: 4,
-                                  numberOfRating: 3,
-                                ),
-                              ),
+                          onPressed: () async {
+                            String output =
+                                await FirestoreMethods().uploadProductToDatabse(
+                              image: image,
+                              productName: productNameController.text,
+                              rawCost: priceController.text,
+                              productDiscount: keysForDiscount[selected - 1],
+                              productDescription: productDescription,
+                              sellerName:
+                                  FirebaseAuth.instance.currentUser!.uid,
+                              sellerUid: FirebaseAuth.instance.currentUser!.uid,
                             );
+                            if (output == 'success') {
+                              Utils().showsnackBar(
+                                  context: context,
+                                  message: 'Product added sucessfully');
+                            } else {
+                              Utils().showsnackBar(
+                                  context: context, message: output);
+                            }
+                            productDescription.clear();
                           },
                         ),
                         SizedBox(
