@@ -11,6 +11,7 @@ A complete shopping app with amazing UI designs and functionality using Flutter,
 6. Category Screen
 7. Reviews Screen
 8. Single product screen 
+9. Selling Screen
 
 
 **Features Added**
@@ -26,7 +27,8 @@ A complete shopping app with amazing UI designs and functionality using Flutter,
 10. Product Review Added.
 11. Review Screen Added.
 12. Product Rating
-13. 
+13. Sell your Products
+14. 
 
 
 
