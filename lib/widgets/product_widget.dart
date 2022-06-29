@@ -47,9 +47,10 @@ class ProductWidget extends StatelessWidget {
                 10,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                    flex: 4,
+                    flex: 3,
                     child: Image.network(
                       productModel.imgUrl,
                       fit: BoxFit.contain,
@@ -61,7 +62,7 @@ class ProductWidget extends StatelessWidget {
                       productModel.productName,
                       textAlign: TextAlign.center,
                       style: productNameStyle,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -70,6 +71,7 @@ class ProductWidget extends StatelessWidget {
                       child: CostWidget(
                         color: priceColor,
                         cost: productModel.price,
+                        textSize: 18,
                       )),
                 ],
               )),

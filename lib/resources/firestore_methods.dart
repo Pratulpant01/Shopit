@@ -38,7 +38,7 @@ class FirestoreMethods {
     required String productName,
     required String rawCost,
     required int productDiscount,
-    required List<String>? productDescription,
+    required List<dynamic> productDescription,
     required String sellerName,
     required String sellerUid,
   }) async {

@@ -47,6 +47,7 @@ class ProductInformationWidget extends StatelessWidget {
                 vertical: 7,
               ),
               child: CostWidget(
+                textSize: 24,
                 color: Colors.black,
                 cost: productCost,
               ),

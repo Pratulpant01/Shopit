@@ -142,7 +142,7 @@ List<String> productDescriptionList = [
 // Text Styles
 
 TextStyle productNameStyle = GoogleFonts.akshar(
-  fontSize: 17,
+  fontSize: 12,
   fontWeight: FontWeight.bold,
 );
 

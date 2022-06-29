@@ -3,8 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:shopit/layout/screen_layout.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/screens/home_screen.dart';
 
 import '../../../screens/signin_screen.dart';
 import '../../../utils/utils.dart';
@@ -56,6 +58,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         Utils().showsnackBar(
           context: event.context,
           message: result,
+        );
+        Navigator.pushReplacement(
+          event.context,
+          MaterialPageRoute(
+            builder: (context) => ScreenLayout(),
+          ),
         );
       } else {
         Utils().showsnackBar(

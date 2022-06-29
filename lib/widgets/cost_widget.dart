@@ -7,11 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 class CostWidget extends StatelessWidget {
   final Color color;
   final double cost;
+  final double textSize;
 
   const CostWidget({
     Key? key,
     required this.color,
     required this.cost,
+    required this.textSize,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,7 @@ class CostWidget extends StatelessWidget {
           child: Text(
             cost.toString(),
             style: GoogleFonts.acme(
-              fontSize: 24,
+              fontSize: textSize,
               color: color,
             ),
           ),

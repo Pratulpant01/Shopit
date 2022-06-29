@@ -6,7 +6,7 @@ class ProductModel {
   final String imgUrl;
   final double price;
   final int discount;
-  final List<String>? description;
+  final List<dynamic> description;
   final String uid;
   final String sellerName;
   final String sellerUid;

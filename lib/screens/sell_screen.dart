@@ -1,16 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopit/models/product_model.dart';
+import 'package:shopit/blocs/ProductDataBloc/product_bloc.dart';
+import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
 import 'package:shopit/widgets/Buttons/primary_button.dart';
-import 'package:shopit/widgets/product_widget.dart';
 import 'package:shopit/widgets/textfield_widget.dart';
 
 class SellScreen extends StatefulWidget {
@@ -233,31 +233,46 @@ class _SellScreenState extends State<SellScreen> {
                         SizedBox(
                           height: screenSize.height * .02,
                         ),
-                        PrimaryButton(
-                          child: Text('Sell', style: buttonTitleStyle),
-                          color: buttonColor,
-                          isLoading: false,
-                          onPressed: () async {
-                            String output =
-                                await FirestoreMethods().uploadProductToDatabse(
-                              image: image,
-                              productName: productNameController.text,
-                              rawCost: priceController.text,
-                              productDiscount: keysForDiscount[selected - 1],
-                              productDescription: productDescription,
-                              sellerName:
-                                  FirebaseAuth.instance.currentUser!.uid,
-                              sellerUid: FirebaseAuth.instance.currentUser!.uid,
+                        BlocBuilder<FirestoreBloc, FirestoreState>(
+                          builder: (context, firestoreState) {
+                            return BlocBuilder<ProductBloc, ProductState>(
+                              builder: (context, state) {
+                                if (state is ProductLoading) {
+                                  print('Product Loading State');
+                                }
+                                if (state is ProductLoaded) {
+                                  print('Product Loaded State');
+                                }
+                                return PrimaryButton(
+                                  child: Text('Sell', style: buttonTitleStyle),
+                                  color: buttonColor,
+                                  isLoading: false,
+                                  onPressed: () async {
+                                    context.read<ProductBloc>().add(
+                                          UploadProductEvent(
+                                            image: image,
+                                            productName:
+                                                productNameController.text,
+                                            rawCost: priceController.text,
+                                            productDiscount:
+                                                keysForDiscount[selected - 1],
+                                            sellerName:
+                                                firestoreState.userData.name,
+                                            sellerUid: FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                            context: context,
+                                            productDescription:
+                                                productDescription,
+                                          ),
+                                        );
+                                    await Future.delayed(
+                                      Duration(seconds: 5),
+                                    );
+                                    productDescription.clear();
+                                  },
+                                );
+                              },
                             );
-                            if (output == 'success') {
-                              Utils().showsnackBar(
-                                  context: context,
-                                  message: 'Product added sucessfully');
-                            } else {
-                              Utils().showsnackBar(
-                                  context: context, message: output);
-                            }
-                            productDescription.clear();
                           },
                         ),
                         SizedBox(

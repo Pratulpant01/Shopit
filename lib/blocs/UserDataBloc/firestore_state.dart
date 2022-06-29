@@ -2,15 +2,17 @@
 part of 'firestore_bloc.dart';
 
 @immutable
-abstract class FirestoreState {}
-
-class FirestoreInitial extends FirestoreState {}
-
-class FirestoreLoading extends FirestoreState {}
-
-class FirestoreLoaded extends FirestoreState {
+abstract class FirestoreState {
   var userData;
-  FirestoreLoaded({
+  FirestoreState({
     required this.userData,
   });
+}
+
+class FirestoreLoading extends FirestoreState {
+  FirestoreLoading({required super.userData});
+}
+
+class FirestoreLoaded extends FirestoreState {
+  FirestoreLoaded({required super.userData});
 }

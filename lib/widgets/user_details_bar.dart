@@ -41,37 +41,33 @@ class UserDetailsBar extends StatelessWidget {
                 ),
               );
             }
-            if (state is FirestoreLoaded) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 3,
-                  horizontal: 20,
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 3,
+                horizontal: 20,
+              ),
+              child: Row(children: [
+                const Padding(
+                  padding: EdgeInsets.only(
+                    right: 8,
+                  ),
+                  child: Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.white,
+                  ),
                 ),
-                child: Row(children: [
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      right: 8,
-                    ),
-                    child: Icon(
-                      Icons.location_on_outlined,
+                Flexible(
+                  child: Text(
+                    'Deliver to ${state.userData.name} - ${state.userData.address}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.abel(
                       color: Colors.white,
                     ),
                   ),
-                  Flexible(
-                    child: Text(
-                      'Deliver to ${state.userData.name} - ${state.userData.address}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.abel(
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                ]),
-              );
-            } else {
-              return Container();
-            }
+                )
+              ]),
+            );
           },
         ),
       ),

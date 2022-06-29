@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,7 +39,9 @@ class _AccountScreenState extends State<AccountScreen> {
                 child: Text('Sign Out'),
                 color: buttonColor,
                 isLoading: false,
-                onPressed: () {},
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
               ),
             ),
             Padding(
@@ -80,6 +83,7 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             Expanded(
                 child: ListView.builder(
+                    primary: false,
                     itemCount: 5,
                     itemBuilder: (context, index) {
                       return ListTile(
@@ -126,16 +130,6 @@ class user_intro_widget extends StatelessWidget {
       ),
       child: Container(
         height: kAppBarHeight,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.white,
-              Colors.white.withOpacity(0.0000000000001),
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
-        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -160,12 +154,13 @@ class user_intro_widget extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                              text: state.userData.name,
-                              style: GoogleFonts.aBeeZee(
-                                fontSize: 26,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              )),
+                            text: state.userData.name,
+                            style: GoogleFonts.aBeeZee(
+                              fontSize: 26,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     );
