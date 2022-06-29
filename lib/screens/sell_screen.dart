@@ -3,10 +3,10 @@ import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shopit/blocs/ProductDataBloc/product_bloc.dart';
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
-import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -27,6 +27,7 @@ class _SellScreenState extends State<SellScreen> {
   List keysForDiscount = [0, 50, 60, 70];
 
   final bool isLoading = false;
+  String categoryValue = 'Electronics';
 
   int selected = 1;
 
@@ -55,11 +56,10 @@ class _SellScreenState extends State<SellScreen> {
               )
             : SingleChildScrollView(
                 child: SizedBox(
-                  height: screenSize.height,
+                  height: screenSize.height * 1.2,
                   width: screenSize.width,
                   child: Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
                           height: screenSize.width / 2.5,
@@ -103,13 +103,12 @@ class _SellScreenState extends State<SellScreen> {
                         Divider(),
                         Expanded(
                           child: Container(
+                            height: screenSize.height * 0.1,
                             padding: EdgeInsets.symmetric(
                               horizontal: 20,
                               vertical: 10,
                             ),
                             margin: EdgeInsets.all(5),
-                            height: screenSize.height * 0.7,
-                            width: screenSize.width,
                             decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey,
@@ -139,11 +138,24 @@ class _SellScreenState extends State<SellScreen> {
                                   obsecureText: false,
                                   hintText: 'Enter your product name',
                                 ),
+                                SizedBox(
+                                  height: screenSize.height * .02,
+                                ),
                                 TextFieldWidget(
                                   title: 'Price of a product',
                                   controller: priceController,
                                   obsecureText: false,
                                   hintText: 'Enter your product price',
+                                ),
+                                SizedBox(
+                                  height: screenSize.height * .02,
+                                ),
+                                Text(
+                                  'Product Description',
+                                  style: GoogleFonts.aleo(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 TextField(
                                   controller: descriptionController,
@@ -170,6 +182,35 @@ class _SellScreenState extends State<SellScreen> {
                                       ),
                                     ),
                                   ),
+                                ),
+                                SizedBox(
+                                  height: screenSize.height * .02,
+                                ),
+                                Text(
+                                  'Product category',
+                                  style: GoogleFonts.aleo(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                DropdownButton<String>(
+                                  isExpanded: true,
+                                  iconEnabledColor: buttonColor,
+                                  underline: SizedBox(),
+                                  style: GoogleFonts.aleo(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                  ),
+                                  value: categoryValue,
+                                  items: dropDownCategories,
+                                  onChanged: (index) {
+                                    setState(() {
+                                      categoryValue = index!;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  height: screenSize.height * .02,
                                 ),
                                 Text(
                                   'Discount',
@@ -237,12 +278,6 @@ class _SellScreenState extends State<SellScreen> {
                           builder: (context, firestoreState) {
                             return BlocBuilder<ProductBloc, ProductState>(
                               builder: (context, state) {
-                                if (state is ProductLoading) {
-                                  print('Product Loading State');
-                                }
-                                if (state is ProductLoaded) {
-                                  print('Product Loaded State');
-                                }
                                 return PrimaryButton(
                                   child: Text('Sell', style: buttonTitleStyle),
                                   color: buttonColor,
@@ -263,11 +298,13 @@ class _SellScreenState extends State<SellScreen> {
                                             context: context,
                                             productDescription:
                                                 productDescription,
+                                            category: categoryValue,
                                           ),
                                         );
                                     await Future.delayed(
                                       Duration(seconds: 5),
                                     );
+                                    Navigator.pop(context);
                                     productDescription.clear();
                                   },
                                 );

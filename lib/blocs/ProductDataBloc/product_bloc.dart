@@ -25,6 +25,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           productDescription: event.productDescription,
           sellerName: event.sellerName,
           sellerUid: event.sellerUid,
+          category: event.category,
         );
         if (result == 'Registration Successful') {
           Utils().showsnackBar(

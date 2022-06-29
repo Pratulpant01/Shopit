@@ -63,6 +63,7 @@ class _CartScreenState extends State<CartScreen> {
                             rating: 5,
                             numberOfRating: 10,
                             description: productDescriptionList,
+                            category: 'Electronics',
                           ),
                         );
                       }),

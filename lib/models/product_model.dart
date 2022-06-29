@@ -8,6 +8,7 @@ class ProductModel {
   final int discount;
   final List<dynamic> description;
   final String uid;
+  final String category;
   final String sellerName;
   final String sellerUid;
   final int rating;
@@ -19,6 +20,7 @@ class ProductModel {
     required this.discount,
     required this.description,
     required this.uid,
+    required this.category,
     required this.sellerName,
     required this.sellerUid,
     required this.rating,
@@ -37,6 +39,7 @@ class ProductModel {
       sellerUid: json['sellerUid'],
       rating: json['rating'],
       numberOfRating: json['numberOfRating'],
+      category: json['category'],
     );
   }
 
@@ -52,6 +55,7 @@ class ProductModel {
       'sellerUid': sellerUid,
       'rating': rating,
       'numberOfRating': numberOfRating,
+      'category': category,
     };
   }
 }

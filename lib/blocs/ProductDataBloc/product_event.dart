@@ -17,6 +17,7 @@ class UploadProductEvent extends ProductEvent {
   List<dynamic> productDescription;
   String sellerName;
   String sellerUid;
+  String category;
   BuildContext context;
   UploadProductEvent({
     required this.image,
@@ -27,6 +28,7 @@ class UploadProductEvent extends ProductEvent {
     required this.sellerName,
     required this.sellerUid,
     required this.context,
+    required this.category,
   });
 }
 

@@ -41,6 +41,7 @@ class FirestoreMethods {
     required List<dynamic> productDescription,
     required String sellerName,
     required String sellerUid,
+    required String category,
   }) async {
     productName.trim();
     rawCost.trim();
@@ -64,6 +65,7 @@ class FirestoreMethods {
           sellerUid: sellerUid,
           rating: 5,
           numberOfRating: 0,
+          category: category,
         );
 
         await firestore
