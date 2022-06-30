@@ -7,9 +7,9 @@ part 'firestore_state.dart';
 
 class FirestoreBloc extends Bloc<FirestoreEvent, FirestoreState> {
   FirestoreMethods firestoreMethods;
-  FirestoreBloc(this.firestoreMethods) : super(FirestoreLoading(userData: {})) {
+  FirestoreBloc(this.firestoreMethods) : super(FirestoreLoading()) {
     on<getUserEvent>((event, emit) async {
-      emit(FirestoreLoading(userData: {}));
+      emit(FirestoreLoading());
       final userData = await firestoreMethods.getUserDetails();
       emit(FirestoreLoaded(userData: userData));
     });

@@ -59,21 +59,4 @@ class ProductModel {
       'category': category,
     };
   }
-
-  static ProductModel fromSnapshot(DocumentSnapshot snapshot) {
-    ProductModel product = ProductModel(
-      productName: snapshot['productName'],
-      imgUrl: snapshot['imageUrl'],
-      price: snapshot['price'],
-      discount: snapshot['discount'],
-      description: snapshot['description'],
-      uid: snapshot['productUid'],
-      sellerName: snapshot['sellerName'],
-      sellerUid: snapshot['sellerUid'],
-      rating: snapshot['rating'],
-      numberOfRating: snapshot['numberOfRating'],
-      category: snapshot['category'],
-    );
-    return product;
-  }
 }

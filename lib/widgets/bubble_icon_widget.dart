@@ -24,29 +24,26 @@ class bubbleIcon extends StatelessWidget {
           icon: iconName,
         ),
         Positioned(
-          right: 7,
-          bottom: 5,
-          child: iconValue != ''
-              ? CircleAvatar(
-                  radius: 9,
-                  backgroundColor: buttonColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Text(
-                      iconValue,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 8,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+            right: 7,
+            bottom: 5,
+            child: CircleAvatar(
+              radius: 9,
+              backgroundColor: buttonColor,
+              child: Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Text(
+                  iconValue,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 8,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
-                )
-              : SizedBox(),
-        ),
+                ),
+              ),
+            )),
       ],
     );
   }

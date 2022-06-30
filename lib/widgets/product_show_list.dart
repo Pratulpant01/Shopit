@@ -12,12 +12,14 @@ import 'package:shopit/utils/utils.dart';
 import 'package:shopit/widgets/product_widget.dart';
 
 class ProductsShowCase extends StatelessWidget {
-  final String title;
-  final List<Widget> children;
-  const ProductsShowCase({
+  final String? title;
+  final List<Widget>? children;
+  bool isLoading;
+  ProductsShowCase({
     Key? key,
-    required this.title,
-    required this.children,
+    this.isLoading = false,
+    this.title,
+    this.children,
   }) : super(key: key);
 
   @override
@@ -33,37 +35,43 @@ class ProductsShowCase extends StatelessWidget {
           padding: EdgeInsets.all(8),
           margin: EdgeInsets.all(8),
           width: screenSize.width,
-          child: Row(
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.acme(
-                  fontSize: 20,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.bold,
-                  color: buttonColor,
+          child: isLoading == true
+              ? Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: buttonColor,
+                  ),
+                )
+              : Row(
+                  children: [
+                    Text(
+                      title!,
+                      style: GoogleFonts.acme(
+                        fontSize: 20,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                        color: buttonColor,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 14,
+                      ),
+                      child: Text(
+                        'View more',
+                        style: linkButtonStyle,
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 14,
-                ),
-                child: Text(
-                  'View more',
-                  style: linkButtonStyle,
-                ),
-              )
-            ],
-          ),
         ),
         SizedBox(
           height: screenSize.height * 0.2,
           width: screenSize.width,
           child: ListView.builder(
-            itemCount: children.length < 6 ? children.length : 6,
+            itemCount: children!.length < 6 ? children!.length : 6,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return children[index];
+              return children![index];
             },
           ),
         )

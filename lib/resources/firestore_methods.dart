@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shopit/models/product_model.dart';
+import 'package:shopit/models/review_model.dart';
 import 'package:shopit/resources/storage_methods.dart';
 import 'package:shopit/widgets/product_widget.dart';
 import 'package:uuid/uuid.dart';
@@ -113,13 +114,72 @@ class FirestoreMethods {
 
     return products;
   }
+
+  Future<String> uploadReviewToDatabase({
+    required String senderName,
+    required int userRating,
+    required String description,
+    required String productUid,
+  }) async {
+    String reviewUid = Uuid().v1();
+    String output = 'Something went wrong';
+    try {
+      ReviewModel review = ReviewModel(
+        senderName: senderName,
+        userRating: userRating,
+        description: description,
+      );
+      await firestore
+          .collection('products')
+          .doc(productUid)
+          .collection('reviews')
+          .doc(reviewUid)
+          .set(review.getJson());
+      output = 'Review added sucessfully';
+    } catch (e) {
+      output = e.toString();
+    }
+    return output;
+  }
+
+  Future<String> addProductToCart(ProductModel productModel) async {
+    String result = 'Something went wrong';
+    try {
+      await firestore
+          .collection('users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection('cart')
+          .doc(productModel.uid)
+          .set(productModel.getJson());
+      result = 'Added to cart';
+    } catch (e) {
+      result = e.toString();
+    }
+    return result;
+  }
+
+  Future<String> deleteProductFromCart(ProductModel productModel) async {
+    String result = 'Something went wrong';
+    try {
+      await firestore
+          .collection('users')
+          .doc(firebaseAuth.currentUser!.uid)
+          .collection('cart')
+          .doc(productModel.uid)
+          .delete();
+      result = 'Product deleted sucessfully';
+    } catch (e) {
+      result = e.toString();
+    }
+    return result;
+  }
 }
 
-
-// Stream<List<ProductModel>> getAllProducts() {
+//   Stream<List<ProductModel>> getAllProducts() {
 //     return firestore.collection('products').snapshots().map((snapshot) {
 //       return snapshot.docs
 //           .map((doc) => ProductModel.fromSnapshot(doc))
 //           .toList();
 //     });
 //   }
+

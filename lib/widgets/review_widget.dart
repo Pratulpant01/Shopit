@@ -28,7 +28,7 @@ class ReviewWidget extends StatelessWidget {
           children: [
             Text(
               reviewModel.senderName,
-              style: productNameStyle,
+              style: descriptionStyle,
             ),
             Row(
               children: [
@@ -46,7 +46,7 @@ class ReviewWidget extends StatelessWidget {
             ),
             Text(
               reviewModel.description,
-              style: descriptionStyle,
+              style: productNameStyle,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
@@ -35,6 +37,7 @@ class ParentAppBarWidget extends StatelessWidget with PreferredSizeWidget {
     Size screenSize = Utils().getScreenSize();
 
     return Container(
+      width: screenSize.width,
       height: kAppBarHeight * 1.4,
       child: SafeArea(
         child: Row(
@@ -71,14 +74,30 @@ class ParentAppBarWidget extends StatelessWidget with PreferredSizeWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            bubbleIcon(
-              iconName: Icon(
-                Icons.shopping_bag_outlined,
-                size: screenSize.height * 0.03,
-              ),
-              iconValue: '1',
-              onPress: () {},
-            ),
+            StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection('cart')
+                  .snapshots(),
+              builder: (context,
+                  AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+                if (!snapshot.hasData) {
+                  return Container();
+                }
+                return bubbleIcon(
+                  iconName: Icon(
+                    Icons.shopping_bag_outlined,
+                    size: screenSize.height * 0.03,
+                  ),
+                  iconValue:
+                      snapshot.data!.docs == 0 || snapshot.data!.docs.length < 7
+                          ? snapshot.data!.docs.length.toString()
+                          : '6+',
+                  onPress: () {},
+                );
+              },
+            )
           ],
         ),
       ),

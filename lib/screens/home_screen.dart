@@ -69,8 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
                     if (state is ProductLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(color: buttonColor),
+                      return ProductsShowCase(
+                        title: '',
+                        children: [],
+                        isLoading: true,
                       );
                     }
                     return ProductsShowCase(
@@ -118,8 +120,10 @@ class showProductswithDiscountWidget extends StatelessWidget {
         future: FirestoreMethods().getProductDataFromDiscount(discount),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(color: buttonColor),
+            return ProductsShowCase(
+              title: '',
+              children: [],
+              isLoading: true,
             );
           }
           return ProductsShowCase(

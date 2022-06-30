@@ -92,16 +92,6 @@ class SearchBarWidget extends StatelessWidget with PreferredSizeWidget {
                 ),
               ),
             ),
-            isReadOnly
-                ? bubbleIcon(
-                    iconName: Icon(
-                      Icons.shopping_bag_outlined,
-                      size: screenSize.height * 0.03,
-                    ),
-                    iconValue: '1',
-                    onPress: () {},
-                  )
-                : SizedBox(),
           ],
         ),
       ),

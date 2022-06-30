@@ -10,4 +10,20 @@ class ReviewModel {
     required this.userRating,
     required this.description,
   });
+
+  factory ReviewModel.fromJson(Map<String, dynamic> json) {
+    return ReviewModel(
+      senderName: json['senderName'],
+      userRating: json['userRating'],
+      description: json['description'],
+    );
+  }
+
+  Map<String, dynamic> getJson() {
+    return {
+      'senderName': senderName,
+      'userRating': userRating,
+      'description': description,
+    };
+  }
 }

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/models/product_model.dart';
@@ -46,28 +49,31 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return CartItemWidget(
-                          product: ProductModel(
-                            productName:
-                                'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
-                            imgUrl:
-                                'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
-                            price: 16000,
-                            discount: 0,
-                            uid: '12',
-                            sellerName: 'Samsung',
-                            sellerUid: 'samsung',
-                            rating: 5,
-                            numberOfRating: 10,
-                            description: productDescriptionList,
-                            category: 'Electronics',
-                          ),
-                        );
-                      }),
-                )
+                    child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('cart')
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(color: buttonColor),
+                      );
+                    }
+                    return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          ProductModel product = ProductModel.fromJson(
+                              snapshot.data!.docs[index].data());
+                          return CartItemWidget(
+                            product: product,
+                          );
+                        });
+                  },
+                ))
               ],
             ),
           ),
@@ -79,3 +85,20 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 }
+
+
+// ProductModel(
+//                             productName:
+//                                 'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
+//                             imgUrl:
+//                                 'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
+//                             price: 16000,
+//                             discount: 0,
+//                             uid: '12',
+//                             sellerName: 'Samsung',
+//                             sellerUid: 'samsung',
+//                             rating: 5,
+//                             numberOfRating: 10,
+//                             description: productDescriptionList,
+//                             category: 'Electronics',
+//                           ),
