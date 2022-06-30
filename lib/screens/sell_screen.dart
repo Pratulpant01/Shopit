@@ -170,6 +170,19 @@ class _SellScreenState extends State<SellScreen> {
                                       onPressed: () {
                                         productDescription
                                             .add(descriptionController.text);
+                                        if (descriptionController.text != '') {
+                                          Utils().showsnackBar(
+                                              context: context,
+                                              message:
+                                                  'Description added sucessfully');
+                                        }
+                                        if (descriptionController.text == '') {
+                                          Utils().showsnackBar(
+                                              context: context,
+                                              message:
+                                                  'Please add a description');
+                                        }
+
                                         descriptionController.clear();
                                       },
                                     ),

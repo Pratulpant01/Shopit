@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/resources/storage_methods.dart';
+import 'package:shopit/widgets/product_widget.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/userdetail_model.dart';
@@ -82,4 +83,43 @@ class FirestoreMethods {
     }
     return output;
   }
+
+  Future<List<Widget>> getProductDataFromDiscount(int discount) async {
+    List<Widget> products = [];
+    QuerySnapshot<Map<String, dynamic>> snapshot = await firestore
+        .collection('products')
+        .where('discount', isEqualTo: discount)
+        .get();
+    snapshot.docs.forEach((snap) {
+      ProductModel product = ProductModel.fromJson(snap.data());
+      products.add(
+        ProductWidget(productModel: product),
+      );
+    });
+    return products;
+  }
+
+  Future<List<Widget>> getProductData() async {
+    List<Widget> products = [];
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await firestore.collection('products').get();
+
+    snapshot.docs.forEach((snap) {
+      ProductModel product = ProductModel.fromJson(snap.data());
+      products.add(
+        ProductWidget(productModel: product),
+      );
+    });
+
+    return products;
+  }
 }
+
+
+// Stream<List<ProductModel>> getAllProducts() {
+//     return firestore.collection('products').snapshots().map((snapshot) {
+//       return snapshot.docs
+//           .map((doc) => ProductModel.fromSnapshot(doc))
+//           .toList();
+//     });
+//   }

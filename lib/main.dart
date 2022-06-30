@@ -8,7 +8,6 @@ import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/layout/screen_layout.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/resources/firestore_methods.dart';
-import 'package:shopit/screens/sell_screen.dart';
 import 'package:shopit/screens/signin_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 

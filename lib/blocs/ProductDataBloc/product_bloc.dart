@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
 
@@ -13,7 +13,7 @@ part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   FirestoreMethods firestoreMethods;
-  ProductBloc(this.firestoreMethods) : super(ProductInitial()) {
+  ProductBloc(this.firestoreMethods) : super(ProductLoading()) {
     on<UploadProductEvent>(
       (event, emit) async {
         emit(ProductLoading());
@@ -38,8 +38,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             message: result,
           );
         }
-        emit(ProductLoaded());
+        emit(ProductUploaded());
       },
     );
+    on<GetProductDataEvent>((event, emit) async {
+      emit(ProductLoading());
+      List<Widget> data = await firestoreMethods.getProductData();
+      emit(
+        ProductLoaded(productData: data),
+      );
+    });
   }
 }

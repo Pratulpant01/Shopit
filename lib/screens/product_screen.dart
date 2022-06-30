@@ -125,14 +125,14 @@ class _ProductScreenState extends State<ProductScreen> {
                     height: screenSize.height / 2,
                     child: ListView.builder(
                         primary: false,
-                        itemCount: productDescriptionList.length,
+                        itemCount: widget.productModel.description.length,
                         itemBuilder: (context, index) {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '\u2022 ${productDescriptionList[index]}',
+                                '\u2022 ${widget.productModel.description[index]}',
                                 style: headingStyle.copyWith(fontSize: 12),
                                 maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
@@ -156,7 +156,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   ),
                   sizedBox,
                   SizedBox(
-                    height: screenSize.height / .2,
+                    height: screenSize.height * 0.7,
                     child: ListView.builder(
                         primary: false,
                         scrollDirection: Axis.vertical,

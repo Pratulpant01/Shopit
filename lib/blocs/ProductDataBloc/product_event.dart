@@ -32,6 +32,4 @@ class UploadProductEvent extends ProductEvent {
   });
 }
 
-class GetProductEvent extends ProductEvent {
-  GetProductEvent({required super.productModel});
-}
+class GetProductDataEvent extends ProductEvent {}
