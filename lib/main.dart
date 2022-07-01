@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopit/blocs/AddToCart/add_to_cart_bloc.dart';
 import 'package:shopit/blocs/AuthBloc/auth_bloc.dart';
 import 'package:shopit/blocs/ProductDataBloc/product_bloc.dart';
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
@@ -54,6 +55,11 @@ class _MyAppState extends State<MyApp> {
               RepositoryProvider.of<FirestoreMethods>(context),
             ),
           ),
+          BlocProvider(
+            create: (context) => AddToCartBloc(
+              RepositoryProvider.of<FirestoreMethods>(context),
+            ),
+          )
         ],
         child: MaterialApp(
           title: 'Shop it',

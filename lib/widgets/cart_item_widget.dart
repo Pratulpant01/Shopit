@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopit/blocs/AddToCart/add_to_cart_bloc.dart';
 
 import 'package:shopit/models/product_model.dart';
+import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/screens/product_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
@@ -9,6 +12,7 @@ import 'package:shopit/utils/utils.dart';
 import 'package:shopit/widgets/Buttons/custom_rounded_button.dart';
 import 'package:shopit/widgets/Buttons/custom_square_button.dart';
 import 'package:shopit/widgets/product_information_widget.dart';
+import 'package:uuid/uuid.dart';
 
 class CartItemWidget extends StatelessWidget {
   final ProductModel product;
@@ -108,7 +112,23 @@ class CartItemWidget extends StatelessWidget {
                     widget: Icon(
                       Icons.add,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      FirestoreMethods().addProductToCart(
+                        ProductModel(
+                          productName: product.productName,
+                          imgUrl: product.imgUrl,
+                          price: product.price,
+                          discount: product.discount,
+                          description: product.description,
+                          uid: Uuid().v1(),
+                          category: product.category,
+                          sellerName: product.sellerName,
+                          sellerUid: product.sellerUid,
+                          rating: product.rating,
+                          numberOfRating: product.numberOfRating,
+                        ),
+                      );
+                    },
                     dimension: screenSize.height * 0.05,
                   ),
                 ],
@@ -117,7 +137,11 @@ class CartItemWidget extends StatelessWidget {
                 children: [
                   CustomRoundedButton(
                     buttonTitle: 'Delete',
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<AddToCartBloc>().add(
+                            DeleteProductFromCart(uid: product.uid),
+                          );
+                    },
                     color: buttonColor,
                     textColor: Colors.white,
                   ),

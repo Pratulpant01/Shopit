@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopit/models/product_model.dart';
+import 'package:shopit/screens/product_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/cost_widget.dart';
@@ -21,16 +22,25 @@ class ResultsWidget extends StatelessWidget {
     Size screenSize = Utils().getScreenSize();
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductScreen(productModel: product),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 8,
         ),
         child: Column(
           children: [
-            SizedBox(
-              width: screenSize.width / 3,
-              child: Image.network(product.imgUrl),
+            Expanded(
+              child: SizedBox(
+                width: screenSize.width / 3,
+                child: Image.network(product.imgUrl),
+              ),
             ),
             SizedBox(
               height: screenSize.width * .02,

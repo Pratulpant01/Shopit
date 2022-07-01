@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/result_widgets.dart';
 import 'package:shopit/widgets/searchbar_widget.dart';
@@ -7,7 +10,7 @@ import 'package:shopit/widgets/searchbar_widget.dart';
 import '../models/product_model.dart';
 
 class ResultScreen extends StatelessWidget {
-  final String query;
+  final String? query;
   const ResultScreen({
     Key? key,
     required this.query,
@@ -52,31 +55,31 @@ class ResultScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView.builder(
-                itemCount: 9,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 2 / 3,
-                ),
-                itemBuilder: (context, index) {
-                  return ResultsWidget(
-                    product: ProductModel(
-                        productName:
-                            'Samsung  1.5 Ton 3 Star Wi-Fi Twin-Cool Inverter Split Air Conditioner (Copper, Auto Convertible, Shield Blu Anti-Corrosion Technology, 2022 Model, CS/CU-SU18XKYTA, White)',
-                        imgUrl:
-                            'https://m.media-amazon.com/images/I/31YVq3uH0EL._SL1024_.jpg',
-                        price: 16000,
-                        discount: 0,
-                        uid: '12',
-                        sellerName: 'Samsung',
-                        sellerUid: 'samsung',
-                        rating: 3,
-                        numberOfRating: 10,
-                        description: productDescriptionList,
-                        category: 'Electronics'),
-                  );
-                }),
-          ),
+              child: FutureBuilder(
+            future: FirebaseFirestore.instance
+                .collection('products')
+                .where('category', isEqualTo: query)
+                .get(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(color: buttonColor),
+                );
+              }
+              return GridView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: snapshot.data.docs.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2 / 3,
+                  ),
+                  itemBuilder: (context, index) {
+                    return ResultsWidget(
+                        product: ProductModel.fromJson(
+                            snapshot.data.docs[index].data()));
+                  });
+            },
+          )),
         ]),
       ),
     );

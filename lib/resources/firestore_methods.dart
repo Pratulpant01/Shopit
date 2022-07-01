@@ -8,6 +8,7 @@ import 'package:shopit/models/product_model.dart';
 import 'package:shopit/models/review_model.dart';
 import 'package:shopit/resources/storage_methods.dart';
 import 'package:shopit/widgets/product_widget.dart';
+import 'package:shopit/widgets/result_widgets.dart';
 import 'package:uuid/uuid.dart';
 
 import '../models/userdetail_model.dart';
@@ -158,20 +159,42 @@ class FirestoreMethods {
     return result;
   }
 
-  Future<String> deleteProductFromCart(ProductModel productModel) async {
+  Future<String> deleteProductFromCart(String uid) async {
     String result = 'Something went wrong';
     try {
       await firestore
           .collection('users')
           .doc(firebaseAuth.currentUser!.uid)
           .collection('cart')
-          .doc(productModel.uid)
+          .doc(uid)
           .delete();
       result = 'Product deleted sucessfully';
     } catch (e) {
       result = e.toString();
     }
     return result;
+  }
+
+  Future<List<Widget>> getProductsByCategory(String category) async {
+    List<Widget> products = [];
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot = await firestore
+          .collection('products')
+          .where('category', isEqualTo: category)
+          .get();
+
+      snapshot.docs.forEach((snap) {
+        ProductModel product = ProductModel.fromJson(snap.data());
+        products.add(
+          ResultsWidget(
+            product: product,
+          ),
+        );
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+    return products;
   }
 }
 

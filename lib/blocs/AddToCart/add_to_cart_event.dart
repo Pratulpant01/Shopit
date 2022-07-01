@@ -15,9 +15,9 @@ class AddProductToDatabase extends AddToCartEvent {
   });
 }
 
-class UpdateCartEvent extends AddToCartEvent {
-  ProductModel productModel;
-  UpdateCartEvent({
-    required this.productModel,
+class DeleteProductFromCart extends AddToCartEvent {
+  String uid;
+  DeleteProductFromCart({
+    required this.uid,
   });
 }

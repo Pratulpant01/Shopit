@@ -21,5 +21,10 @@ class AddToCartBloc extends Bloc<AddToCartEvent, AddToCartState> {
         print(result);
       }
     });
+    on<DeleteProductFromCart>((event, emit) async {
+      emit(AddToCartLoading());
+      final result = await firestoreMethods.deleteProductFromCart(event.uid);
+      emit(AddToCartLoaded());
+    });
   }
 }

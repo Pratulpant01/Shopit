@@ -38,14 +38,28 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: PrimaryButton(
-                    child: Text(
-                      'Proceed to buy n items',
-                      style: buttonTitleStyle,
-                    ),
-                    color: lightbuttonColor,
-                    isLoading: false,
-                    onPressed: () {},
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .collection('cart')
+                        .snapshots(),
+                    builder: (context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      }
+                      return PrimaryButton(
+                        child: Text(
+                          'Proceed to buy ${snapshot.data!.docs.length} items',
+                          style: buttonTitleStyle,
+                        ),
+                        color: lightbuttonColor,
+                        isLoading: false,
+                        onPressed: () {},
+                      );
+                    },
                   ),
                 ),
                 Expanded(
