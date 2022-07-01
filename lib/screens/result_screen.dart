@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/result_widgets.dart';
@@ -11,8 +10,10 @@ import '../models/product_model.dart';
 
 class ResultScreen extends StatelessWidget {
   final String? query;
+  final bool isCategoryQuery;
   const ResultScreen({
     Key? key,
+    this.isCategoryQuery = false,
     required this.query,
   }) : super(key: key);
 
@@ -56,10 +57,15 @@ class ResultScreen extends StatelessWidget {
           ),
           Expanded(
               child: FutureBuilder(
-            future: FirebaseFirestore.instance
-                .collection('products')
-                .where('category', isEqualTo: query)
-                .get(),
+            future: isCategoryQuery
+                ? FirebaseFirestore.instance
+                    .collection('products')
+                    .where('category', isEqualTo: query)
+                    .get()
+                : FirebaseFirestore.instance
+                    .collection('products')
+                    .where('productName', isGreaterThanOrEqualTo: query)
+                    .get(),
             builder: (context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) {
                 return Center(

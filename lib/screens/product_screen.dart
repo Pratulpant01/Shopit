@@ -151,8 +151,8 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                     sizedBox,
                     Container(
-                      height: screenSize.height / 2,
                       child: ListView.builder(
+                          shrinkWrap: true,
                           primary: false,
                           itemCount: widget.productModel.description.length,
                           itemBuilder: (context, index) {
@@ -187,7 +187,6 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                     sizedBox,
                     SizedBox(
-                        height: screenSize.height * 0.7,
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection('products')
@@ -212,6 +211,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                         ),
                                       )
                                     : ListView.builder(
+                                        shrinkWrap: true,
                                         itemCount: snapshot.data!.docs.length,
                                         itemBuilder: (context, index) {
                                           ReviewModel reviewModel =

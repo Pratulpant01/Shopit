@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/models/product_model.dart';
+import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/screens/Address/address_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/cart_item_widget.dart';
@@ -12,6 +15,7 @@ import 'package:shopit/widgets/parent_appBar_widget.dart';
 import 'package:shopit/widgets/searchbar_widget.dart';
 import 'package:shopit/widgets/user_details_bar.dart';
 
+import '../blocs/UserDataBloc/firestore_bloc.dart';
 import '../models/userdetail_model.dart';
 
 class CartScreen extends StatefulWidget {
@@ -23,7 +27,15 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double sum = 0;
+
     return Scaffold(
       appBar: ParentAppBarWidget(
         hasBack: false,
@@ -50,6 +62,10 @@ class _CartScreenState extends State<CartScreen> {
                       if (!snapshot.hasData) {
                         return Container();
                       }
+                      snapshot.data!.docs.forEach((product) {
+                        sum += product['price'];
+                      });
+
                       return PrimaryButton(
                         child: Text(
                           'Proceed to buy ${snapshot.data!.docs.length} items',
@@ -57,7 +73,15 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         color: lightbuttonColor,
                         isLoading: false,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AddressScreen(totalAmount: sum.toString()),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -78,6 +102,7 @@ class _CartScreenState extends State<CartScreen> {
                       );
                     }
                     return ListView.builder(
+                        shrinkWrap: true,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           ProductModel product = ProductModel.fromJson(

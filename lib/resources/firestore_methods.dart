@@ -18,6 +18,7 @@ class FirestoreMethods {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   StorageMethods storageMethods = StorageMethods();
+  String getUid = FirebaseAuth.instance.currentUser!.uid;
 
   Future uploadUserDetails({required UserDetailModel user}) async {
     await firestore.collection('users').doc(firebaseAuth.currentUser!.uid).set(
@@ -195,6 +196,18 @@ class FirestoreMethods {
       print(e.toString());
     }
     return products;
+  }
+
+  Future getSubtotalCartPrice(String uid) async {
+    int sum = 0;
+    QuerySnapshot priceData = await firestore
+        .collection('users')
+        .doc(getUid)
+        .collection('cart')
+        .where('price')
+        .get();
+
+    print(priceData);
   }
 }
 

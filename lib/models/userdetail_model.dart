@@ -20,4 +20,7 @@ class UserDetailModel {
       address: json['address'],
     );
   }
+
+  @override
+  String toString() => 'UserDetailModel(name: $name, address: $address)';
 }

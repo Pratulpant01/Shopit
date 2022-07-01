@@ -19,7 +19,10 @@ class CategoryWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ResultScreen(query: categoriesList[index]),
+            builder: (context) => ResultScreen(
+              query: categoriesList[index],
+              isCategoryQuery: true,
+            ),
           ),
         );
       },

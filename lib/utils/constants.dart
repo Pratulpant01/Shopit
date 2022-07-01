@@ -156,6 +156,11 @@ TextStyle descriptionStyle = GoogleFonts.akayaTelivigala(
   fontWeight: FontWeight.bold,
 );
 
+TextStyle addressTextStyle = GoogleFonts.aleo(
+  fontSize: 26,
+  fontWeight: FontWeight.w700,
+);
+
 TextStyle buttonTitleStyle = GoogleFonts.abel(
   fontSize: 16,
   fontWeight: FontWeight.w400,

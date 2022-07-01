@@ -30,8 +30,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(
-            bottom: 10,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 10,
           ),
           child: Text(
             widget.title,
