@@ -1,10 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pay/pay.dart';
 
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
+import 'package:shopit/models/address_model.dart';
+import 'package:shopit/models/order_model.dart';
+import 'package:shopit/models/product_model.dart';
+import 'package:shopit/screens/Address/services/address_services.dart';
 import 'package:shopit/screens/account_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
@@ -32,6 +38,8 @@ class AddressScreen extends StatefulWidget {
 }
 
 class _AddressScreenState extends State<AddressScreen> {
+  String addressDetails = '';
+
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -61,24 +69,39 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   List<PaymentItem> paymentItems = [];
-  void onApplePayResult(res) {}
+  void onApplePayResult(res) {
+    if (BlocProvider.of<FirestoreBloc>(context).state.userData.address ==
+        null) {
+      AddressServices().uploadUserAddress(
+        AddressModel(address: addressDetails),
+      );
+    }
+  }
+
   void onGooglePayResult(res) {}
 
   void addressSelected(String defaultAddress) {
-    String addressDetails = '';
-    bool isFromActive = nameController.text.isNotEmpty ||
-        phoneNumberController.text.isNotEmpty ||
-        addressController.text.isNotEmpty ||
-        cityController.text.isNotEmpty ||
+    addressDetails = '';
+    bool isFromActive = nameController.text.isNotEmpty &&
+        phoneNumberController.text.isNotEmpty &&
+        addressController.text.isNotEmpty &&
+        cityController.text.isNotEmpty &&
         pinCodeController.text.isNotEmpty;
+    print(isFromActive);
 
     if (isFromActive) {
       if (_addressFormKey.currentState!.validate()) {
         addressDetails =
             '${nameController.text}, ${phoneNumberController.text} \n${addressController.text}, ${cityController.text}, ${pinCodeController.text}';
-        print(addressDetails);
-      } else {}
-    } else {}
+      } else {
+        throw Exception('Please enter all the required fields');
+      }
+    } else if (defaultAddress.isNotEmpty) {
+      addressDetails = defaultAddress;
+    } else {
+      throw Exception('Error');
+    }
+    print(addressDetails);
   }
 
   @override
@@ -101,17 +124,9 @@ class _AddressScreenState extends State<AddressScreen> {
                   user != null
                       ? Column(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  widget.isSelected = !widget.isSelected;
-                                });
-                              },
-                              child: addressWidget(
-                                screenSize: screenSize,
-                                address: user,
-                                isSelected: widget.isSelected,
-                              ),
+                            addressWidget(
+                              screenSize: screenSize,
+                              address: user,
                             ),
                             Center(
                               child: Text("Or", style: addressTextStyle),
@@ -173,11 +188,21 @@ class _AddressScreenState extends State<AddressScreen> {
                     height: screenSize.height * .05,
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        addressSelected('Deopa Building Bro');
+                      onPressed: () async {
+                        List<ProductModel> products =
+                            await AddressServices().getOrderedProducts();
+                        AddressServices().uploadOrderToDatabse(
+                          products: products,
+                          totalPrice: widget.totalAmount,
+                          shippingAddress: addressDetails,
+                          buyerId: FirebaseAuth.instance.currentUser!.uid,
+                          orderedAt: DateTime.now(),
+                          orderStatus: 0,
+                        );
                       },
                       child: Text('Testing')),
                   ApplePayButton(
+                    onPressed: () => addressSelected(user.address),
                     width: screenSize.width,
                     height: screenSize.height * 0.05,
                     type: ApplePayButtonType.buy,
@@ -190,6 +215,7 @@ class _AddressScreenState extends State<AddressScreen> {
                     height: screenSize.height * .05,
                   ),
                   GooglePayButton(
+                    onPressed: () => addressSelected(user.address),
                     width: screenSize.width,
                     height: screenSize.height * 0.05,
                     type: GooglePayButtonType.buy,

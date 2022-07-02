@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:shopit/utils/color_themes.dart';
 
 import '../utils/constants.dart';
 
-class addressWidget extends StatefulWidget {
-  bool isSelected;
+class addressWidget extends StatelessWidget {
   addressWidget({
     Key? key,
     required this.screenSize,
     required this.address,
-    this.isSelected = false,
   }) : super(key: key);
 
   final Size screenSize;
   var address;
 
-  @override
-  State<addressWidget> createState() => _addressWidgetState();
-}
-
-class _addressWidgetState extends State<addressWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,11 +23,11 @@ class _addressWidgetState extends State<addressWidget> {
         horizontal: 10,
         vertical: 10,
       ),
-      height: widget.screenSize.height * 0.15,
-      width: widget.screenSize.width,
+      height: screenSize.height * 0.15,
+      width: screenSize.width,
       decoration: BoxDecoration(
         border: Border.all(
-          color: widget.isSelected ? buttonColor : Colors.grey,
+          color: Colors.grey,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(10),
@@ -53,7 +45,7 @@ class _addressWidgetState extends State<addressWidget> {
           ),
           Center(
             child: Text(
-              widget.address.name,
+              address.name,
               style: addressTextStyle.copyWith(
                 fontSize: 15,
               ),
@@ -63,11 +55,11 @@ class _addressWidgetState extends State<addressWidget> {
             ),
           ),
           SizedBox(
-            height: widget.screenSize.height * 0.01,
+            height: screenSize.height * 0.01,
           ),
           Center(
             child: Text(
-              widget.address.address,
+              address.address,
               style: addressTextStyle.copyWith(
                 fontSize: 15,
               ),

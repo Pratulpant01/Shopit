@@ -153,6 +153,7 @@ class FirestoreMethods {
           .collection('cart')
           .doc(productModel.uid)
           .set(productModel.getJson());
+
       result = 'Added to cart';
     } catch (e) {
       result = e.toString();
