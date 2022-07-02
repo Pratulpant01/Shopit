@@ -9,6 +9,7 @@ import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/layout/screen_layout.dart';
 import 'package:shopit/resources/auth_methods.dart';
 import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/screens/add_to_cart/services/add_to_cart_services.dart';
 import 'package:shopit/screens/signin_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 
@@ -37,6 +38,9 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(
           create: (context) => FirestoreMethods(),
         ),
+        RepositoryProvider(
+          create: (context) => AddToCartServices(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -57,7 +61,7 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (context) => AddToCartBloc(
-              RepositoryProvider.of<FirestoreMethods>(context),
+              RepositoryProvider.of<AddToCartServices>(context),
             ),
           )
         ],

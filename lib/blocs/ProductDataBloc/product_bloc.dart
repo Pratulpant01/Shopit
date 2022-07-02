@@ -18,15 +18,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       (event, emit) async {
         emit(ProductLoading());
         final result = await firestoreMethods.uploadProductToDatabse(
-          image: event.image,
-          productName: event.productName,
-          rawCost: event.rawCost,
-          productDiscount: event.productDiscount,
-          productDescription: event.productDescription,
-          sellerName: event.sellerName,
-          sellerUid: event.sellerUid,
-          category: event.category,
-        );
+            image: event.image,
+            productName: event.productName,
+            rawCost: event.rawCost,
+            productDiscount: event.productDiscount,
+            productDescription: event.productDescription,
+            sellerName: event.sellerName,
+            sellerUid: event.sellerUid,
+            category: event.category,
+            quantity: event.quantity);
         if (result == 'Registration Successful') {
           Utils().showsnackBar(
             context: event.context,

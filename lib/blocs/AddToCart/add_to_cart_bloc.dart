@@ -1,18 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
-
+import 'package:shopit/screens/add_to_cart/services/add_to_cart_services.dart';
 part 'add_to_cart_event.dart';
 part 'add_to_cart_state.dart';
 
 class AddToCartBloc extends Bloc<AddToCartEvent, AddToCartState> {
-  FirestoreMethods firestoreMethods;
-  AddToCartBloc(this.firestoreMethods) : super(AddToCartLoading()) {
+  AddToCartServices addToCartServices;
+  AddToCartBloc(this.addToCartServices) : super(AddToCartLoading()) {
     on<AddProductToDatabase>((event, emit) async {
-      final result =
-          await firestoreMethods.addProductToCart(event.productModel);
+      String result =
+          await addToCartServices.addProductToCart(event.productModel);
       if (result == 'Added to cart') {
         emit(
           ProductUploadedToDatabase(),
@@ -23,7 +22,7 @@ class AddToCartBloc extends Bloc<AddToCartEvent, AddToCartState> {
     });
     on<DeleteProductFromCart>((event, emit) async {
       emit(AddToCartLoading());
-      final result = await firestoreMethods.deleteProductFromCart(event.uid);
+      final result = await addToCartServices.deleteProductFromCart(event.uid);
       emit(AddToCartLoaded());
     });
   }

@@ -15,8 +15,8 @@ import 'package:shopit/widgets/parent_appBar_widget.dart';
 import 'package:shopit/widgets/searchbar_widget.dart';
 import 'package:shopit/widgets/user_details_bar.dart';
 
-import '../blocs/UserDataBloc/firestore_bloc.dart';
-import '../models/userdetail_model.dart';
+import '../../blocs/UserDataBloc/firestore_bloc.dart';
+import '../../models/userdetail_model.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);

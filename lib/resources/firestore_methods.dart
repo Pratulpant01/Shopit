@@ -46,6 +46,7 @@ class FirestoreMethods {
     required String sellerName,
     required String sellerUid,
     required String category,
+    required int quantity,
   }) async {
     productName.trim();
     rawCost.trim();
@@ -70,6 +71,7 @@ class FirestoreMethods {
           rating: 5,
           numberOfRating: 0,
           category: category,
+          quantity: 0,
         );
 
         await firestore
@@ -144,39 +146,6 @@ class FirestoreMethods {
     return output;
   }
 
-  Future<String> addProductToCart(ProductModel productModel) async {
-    String result = 'Something went wrong';
-    try {
-      await firestore
-          .collection('users')
-          .doc(firebaseAuth.currentUser!.uid)
-          .collection('cart')
-          .doc(productModel.uid)
-          .set(productModel.getJson());
-
-      result = 'Added to cart';
-    } catch (e) {
-      result = e.toString();
-    }
-    return result;
-  }
-
-  Future<String> deleteProductFromCart(String uid) async {
-    String result = 'Something went wrong';
-    try {
-      await firestore
-          .collection('users')
-          .doc(firebaseAuth.currentUser!.uid)
-          .collection('cart')
-          .doc(uid)
-          .delete();
-      result = 'Product deleted sucessfully';
-    } catch (e) {
-      result = e.toString();
-    }
-    return result;
-  }
-
   Future<List<Widget>> getProductsByCategory(String category) async {
     List<Widget> products = [];
     try {
@@ -197,18 +166,6 @@ class FirestoreMethods {
       print(e.toString());
     }
     return products;
-  }
-
-  Future getSubtotalCartPrice(String uid) async {
-    int sum = 0;
-    QuerySnapshot priceData = await firestore
-        .collection('users')
-        .doc(getUid)
-        .collection('cart')
-        .where('price')
-        .get();
-
-    print(priceData);
   }
 }
 

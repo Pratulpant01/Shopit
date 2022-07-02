@@ -1,14 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:pay/pay.dart';
 
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/models/address_model.dart';
-import 'package:shopit/models/order_model.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/screens/Address/services/address_services.dart';
 import 'package:shopit/screens/account_screen.dart';

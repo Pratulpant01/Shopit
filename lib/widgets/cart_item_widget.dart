@@ -5,6 +5,7 @@ import 'package:shopit/blocs/AddToCart/add_to_cart_bloc.dart';
 
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/screens/add_to_cart/services/add_to_cart_services.dart';
 import 'package:shopit/screens/product_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
@@ -112,23 +113,7 @@ class CartItemWidget extends StatelessWidget {
                     widget: Icon(
                       Icons.add,
                     ),
-                    onPressed: () {
-                      FirestoreMethods().addProductToCart(
-                        ProductModel(
-                          productName: product.productName,
-                          imgUrl: product.imgUrl,
-                          price: product.price,
-                          discount: product.discount,
-                          description: product.description,
-                          uid: Uuid().v1(),
-                          category: product.category,
-                          sellerName: product.sellerName,
-                          sellerUid: product.sellerUid,
-                          rating: product.rating,
-                          numberOfRating: product.numberOfRating,
-                        ),
-                      );
-                    },
+                    onPressed: () {},
                     dimension: screenSize.height * 0.05,
                   ),
                 ],

@@ -18,6 +18,7 @@ class UploadProductEvent extends ProductEvent {
   String sellerName;
   String sellerUid;
   String category;
+  int quantity;
   BuildContext context;
   UploadProductEvent({
     required this.image,
@@ -29,6 +30,7 @@ class UploadProductEvent extends ProductEvent {
     required this.sellerUid,
     required this.context,
     required this.category,
+    this.quantity = 0,
   });
 }
 

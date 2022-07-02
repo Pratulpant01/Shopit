@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/screens/account_screen.dart';
-import 'package:shopit/screens/cart_screen.dart';
+import 'package:shopit/screens/add_to_cart/cart_screen.dart';
 import 'package:shopit/screens/home_screen.dart';
 
 import '../models/product_model.dart';

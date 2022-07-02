@@ -7,6 +7,7 @@ import 'package:shopit/blocs/AddToCart/add_to_cart_bloc.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/models/review_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/screens/add_to_cart/services/add_to_cart_services.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -22,7 +23,8 @@ import '../widgets/user_details_bar.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductModel productModel;
-  const ProductScreen({
+  bool isPressed = false;
+  ProductScreen({
     Key? key,
     required this.productModel,
   }) : super(key: key);
@@ -38,200 +40,189 @@ class _ProductScreenState extends State<ProductScreen> {
     SizedBox sizedBox = SizedBox(
       height: screenSize.width * .03,
     );
-    return BlocProvider(
-      create: (context) => AddToCartBloc(
-        RepositoryProvider.of<FirestoreMethods>(context),
+    return Scaffold(
+      appBar: ParentAppBarWidget(
+        hasBack: true,
       ),
-      child: Scaffold(
-        appBar: ParentAppBarWidget(
-          hasBack: true,
-        ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: kAppBarHeight / 2,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: kAppBarHeight / 2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.productModel.sellerName,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: productShortLabelStyle.copyWith(
-                                    fontSize: 15,
-                                    color: activeCyanColor,
-                                  ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.productModel.sellerName,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: productShortLabelStyle.copyWith(
+                                  fontSize: 15,
+                                  color: activeCyanColor,
                                 ),
-                                sizedBox,
-                                Text(
-                                  widget.productModel.productName,
-                                  maxLines:
-                                      widget.productModel.productName.length,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: productNameStyle.copyWith(),
-                                ),
-                              ],
-                            ),
+                              ),
+                              sizedBox,
+                              Text(
+                                widget.productModel.productName,
+                                maxLines:
+                                    widget.productModel.productName.length,
+                                overflow: TextOverflow.ellipsis,
+                                style: productNameStyle.copyWith(),
+                              ),
+                            ],
                           ),
-                          RatingStarWidget(
-                            rating: widget.productModel.rating,
-                          ),
-                        ],
-                      ),
+                        ),
+                        RatingStarWidget(
+                          rating: widget.productModel.rating,
+                        ),
+                      ],
                     ),
-                    Container(
-                      height: screenSize.height * 0.4,
-                      child: Image.network(
-                        widget.productModel.imgUrl,
-                      ),
+                  ),
+                  Container(
+                    height: screenSize.height * 0.4,
+                    child: Image.network(
+                      widget.productModel.imgUrl,
                     ),
-                    CostWidget(
-                      color: priceColor,
-                      cost: widget.productModel.price,
-                      textSize: 24,
-                    ),
-                    SizedBox(
-                      height: screenSize.width * .05,
-                    ),
-                    PrimaryButton(
-                      child: Text('Buy Now'),
-                      color: buttonColor,
-                      isLoading: false,
-                      onPressed: () {},
-                    ),
-                    sizedBox,
-                    BlocConsumer<AddToCartBloc, AddToCartState>(
-                      listener: (context, state) {
-                        if (state is ProductUploadedToDatabase) {
-                          Utils().showsnackBar(
-                              context: context,
-                              message: 'Product Added To Cart');
-                        } else {
-                          Utils().showsnackBar(
-                              context: context,
-                              message:
-                                  'Something went wrong. Please try again later.');
-                        }
-                      },
-                      builder: (context, state) {
-                        return PrimaryButton(
-                          child: Text('Add to Cart'),
-                          color: lightbuttonColor,
-                          isLoading: false,
-                          onPressed: () async {
-                            context.read<AddToCartBloc>().add(
-                                  AddProductToDatabase(
-                                      productModel: widget.productModel),
-                                );
-                          },
-                        );
-                      },
-                    ),
-                    Divider(),
-                    sizedBox,
-                    Text(
-                      'About this item',
-                      style: headingStyle,
-                    ),
-                    sizedBox,
-                    Container(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          primary: false,
-                          itemCount: widget.productModel.description.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '\u2022 ${widget.productModel.description[index]}',
-                                  style: headingStyle.copyWith(fontSize: 12),
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                sizedBox,
-                              ],
+                  ),
+                  CostWidget(
+                    color: priceColor,
+                    cost: widget.productModel.price,
+                    textSize: 24,
+                  ),
+                  SizedBox(
+                    height: screenSize.width * .05,
+                  ),
+                  PrimaryButton(
+                    child: Text('Buy Now'),
+                    color: buttonColor,
+                    isLoading: false,
+                    onPressed: () {},
+                  ),
+                  sizedBox,
+                  PrimaryButton(
+                    child: Text('Add to Cart'),
+                    color: lightbuttonColor,
+                    isLoading: false,
+                    onPressed: () async {
+                      bool isAdded = await AddToCartServices()
+                          .checkProductinCart(widget.productModel.uid);
+
+                      if (!isAdded) {
+                        context.read<AddToCartBloc>().add(
+                              AddProductToDatabase(
+                                productModel: widget.productModel,
+                              ),
                             );
-                          }),
-                    ),
-                    sizedBox,
-                    CustomRoundedButton(
-                      buttonTitle: 'Add a review for this product',
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context1) => ReviewDialog(
-                            productUid: widget.productModel.uid,
-                          ),
-                        );
-                      },
-                      color: Colors.white,
-                      textColor: Colors.black,
-                    ),
-                    sizedBox,
-                    SizedBox(
-                        child: StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('products')
-                                .doc(widget.productModel.uid)
-                                .collection('reviews')
-                                .snapshots(),
-                            builder: (context,
-                                AsyncSnapshot<
-                                        QuerySnapshot<Map<String, dynamic>>>
-                                    snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Container();
-                              } else {
-                                return snapshot.data!.docs.length == 0
-                                    ? Center(
-                                        child: Text(
-                                          'No reviews found for this product',
-                                          style: headingStyle.copyWith(
-                                            color: buttonColor,
-                                          ),
+                      } else {
+                        AddToCartServices()
+                            .updateAddToCartProduct(widget.productModel.uid);
+                      }
+
+                      print(isAdded);
+                    },
+                  ),
+                  Divider(),
+                  sizedBox,
+                  Text(
+                    'About this item',
+                    style: headingStyle,
+                  ),
+                  sizedBox,
+                  Container(
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: widget.productModel.description.length,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '\u2022 ${widget.productModel.description[index]}',
+                                style: headingStyle.copyWith(fontSize: 12),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              sizedBox,
+                            ],
+                          );
+                        }),
+                  ),
+                  sizedBox,
+                  CustomRoundedButton(
+                    buttonTitle: 'Add a review for this product',
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context1) => ReviewDialog(
+                          productUid: widget.productModel.uid,
+                        ),
+                      );
+                    },
+                    color: Colors.white,
+                    textColor: Colors.black,
+                  ),
+                  sizedBox,
+                  SizedBox(
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('products')
+                              .doc(widget.productModel.uid)
+                              .collection('reviews')
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                  snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Container();
+                            } else {
+                              return snapshot.data!.docs.length == 0
+                                  ? Center(
+                                      child: Text(
+                                        'No reviews found for this product',
+                                        style: headingStyle.copyWith(
+                                          color: buttonColor,
                                         ),
-                                      )
-                                    : ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: snapshot.data!.docs.length,
-                                        itemBuilder: (context, index) {
-                                          ReviewModel reviewModel =
-                                              ReviewModel.fromJson(
-                                            snapshot.data!.docs[index].data(),
-                                          );
-                                          return ReviewWidget(
-                                              reviewModel: reviewModel);
-                                        });
-                              }
-                            }))
-                  ],
-                ),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data!.docs.length,
+                                      itemBuilder: (context, index) {
+                                        ReviewModel reviewModel =
+                                            ReviewModel.fromJson(
+                                          snapshot.data!.docs[index].data(),
+                                        );
+                                        return ReviewWidget(
+                                            reviewModel: reviewModel);
+                                      });
+                            }
+                          }))
+                ],
               ),
             ),
-            UserDetailsBar(
-              offset: 0,
-            ),
-          ],
-        ),
+          ),
+          UserDetailsBar(
+            offset: 0,
+          ),
+        ],
       ),
     );
   }

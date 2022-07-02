@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:shopit/layout/screen_layout.dart';
-import 'package:shopit/screens/cart_screen.dart';
+import 'package:shopit/screens/add_to_cart/cart_screen.dart';
 import 'package:shopit/screens/result_screen.dart';
 import 'package:shopit/screens/search_screen.dart';
 import 'package:shopit/utils/color_themes.dart';

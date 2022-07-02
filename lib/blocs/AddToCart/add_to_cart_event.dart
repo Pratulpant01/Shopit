@@ -21,3 +21,10 @@ class DeleteProductFromCart extends AddToCartEvent {
     required this.uid,
   });
 }
+
+// class updateProductFromCart extends AddToCartEvent {
+//   int quantity;
+//   updateProductFromCart({
+//     required this.quantity,
+//   });
+// }
