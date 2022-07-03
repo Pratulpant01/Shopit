@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopit/models/product_model.dart';
-import 'package:shopit/screens/product_screen.dart';
+import 'package:shopit/screens/Product/product_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/cost_widget.dart';

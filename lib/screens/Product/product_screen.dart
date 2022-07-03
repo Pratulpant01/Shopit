@@ -19,7 +19,7 @@ import 'package:shopit/widgets/rating_star_widget.dart';
 import 'package:shopit/widgets/review_dialog.dart';
 import 'package:shopit/widgets/review_widget.dart';
 
-import '../widgets/user_details_bar.dart';
+import '../../widgets/user_details_bar.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductModel productModel;
@@ -119,21 +119,11 @@ class _ProductScreenState extends State<ProductScreen> {
                     color: lightbuttonColor,
                     isLoading: false,
                     onPressed: () async {
-                      bool isAdded = await AddToCartServices()
-                          .checkProductinCart(widget.productModel.uid);
-
-                      if (!isAdded) {
-                        context.read<AddToCartBloc>().add(
-                              AddProductToDatabase(
-                                productModel: widget.productModel,
-                              ),
-                            );
-                      } else {
-                        AddToCartServices()
-                            .updateAddToCartProduct(widget.productModel.uid);
-                      }
-
-                      print(isAdded);
+                      context.read<AddToCartBloc>().add(
+                            AddProductQuantityinCart(
+                                productUid: widget.productModel.uid,
+                                productModel: widget.productModel),
+                          );
                     },
                   ),
                   Divider(),

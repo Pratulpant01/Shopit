@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopit/blocs/ProductDataBloc/product_bloc.dart';
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/resources/firestore_methods.dart';
+import 'package:shopit/screens/Order/services/order_services.dart';
+import 'package:shopit/screens/Product/services/product_services.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    OrderServices().getProductsfromCart('XX9qa7NzdsfQleUa6xDMRzyzCs33');
     controller.addListener(() {
       setState(() {
         offset = controller.position.pixels;
@@ -50,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return BlocProvider(
       create: (context) => ProductBloc(
-        RepositoryProvider.of<FirestoreMethods>(context),
+        RepositoryProvider.of<ProductServices>(context),
       )..add(GetProductDataEvent()),
       child: Scaffold(
         appBar: ParentAppBarWidget(
@@ -117,7 +120,7 @@ class showProductswithDiscountWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: FirestoreMethods().getProductDataFromDiscount(discount),
+        future: ProductServices().getProductDataFromDiscount(discount),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return ProductsShowCase(

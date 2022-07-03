@@ -9,6 +9,7 @@ import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
+import 'package:shopit/screens/Product/services/product_services.dart';
 
 class ReviewDialog extends StatelessWidget {
   final String productUid;
@@ -34,7 +35,7 @@ class ReviewDialog extends StatelessWidget {
           submitButtonTextStyle: headingStyle.copyWith(color: buttonColor),
           commentHint: 'Type Here',
           onSubmitted: (RatingDialogResponse response) async {
-            final result = await FirestoreMethods().uploadReviewToDatabase(
+            final result = await ProductServices().uploadReviewToDatabase(
               senderName: state.userData!.name,
               userRating: response.rating.toInt(),
               description: response.comment,

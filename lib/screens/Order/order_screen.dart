@@ -7,7 +7,8 @@ import 'package:pay/pay.dart';
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/models/address_model.dart';
 import 'package:shopit/models/product_model.dart';
-import 'package:shopit/screens/Address/services/address_services.dart';
+import 'package:shopit/screens/Order/services/order_services.dart';
+import 'package:shopit/screens/Order/services/order_services.dart';
 import 'package:shopit/screens/account_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
@@ -21,20 +22,20 @@ import '../../widgets/textfield_widget.dart';
 
 final _addressFormKey = GlobalKey<FormState>();
 
-class AddressScreen extends StatefulWidget {
+class OrderScreen extends StatefulWidget {
   final String totalAmount;
   bool isSelected;
-  AddressScreen({
+  OrderScreen({
     Key? key,
     required this.totalAmount,
     this.isSelected = false,
   }) : super(key: key);
 
   @override
-  State<AddressScreen> createState() => _AddressScreenState();
+  State<OrderScreen> createState() => _OrderScreenState();
 }
 
-class _AddressScreenState extends State<AddressScreen> {
+class _OrderScreenState extends State<OrderScreen> {
   String addressDetails = '';
 
   TextEditingController nameController = TextEditingController();
@@ -69,7 +70,7 @@ class _AddressScreenState extends State<AddressScreen> {
   void onApplePayResult(res) {
     if (BlocProvider.of<FirestoreBloc>(context).state.userData.address ==
         null) {
-      AddressServices().uploadUserAddress(
+      OrderServices().uploadUserAddress(
         AddressModel(address: addressDetails),
       );
     }
@@ -186,14 +187,14 @@ class _AddressScreenState extends State<AddressScreen> {
                   ),
                   ElevatedButton(
                       onPressed: () async {
+                        addressSelected(user.address);
                         List<ProductModel> products =
-                            await AddressServices().getOrderedProducts();
-                        AddressServices().uploadOrderToDatabse(
+                            await OrderServices().getOrderedProducts();
+                        await OrderServices().uploadOrderToDatabse(
                           products: products,
                           totalPrice: widget.totalAmount,
                           shippingAddress: addressDetails,
                           buyerId: FirebaseAuth.instance.currentUser!.uid,
-                          orderedAt: DateTime.now(),
                           orderStatus: 0,
                         );
                       },

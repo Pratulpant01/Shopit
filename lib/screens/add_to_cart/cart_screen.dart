@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
-import 'package:shopit/screens/Address/address_screen.dart';
+import 'package:shopit/screens/Order/order_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/cart_item_widget.dart';
@@ -63,7 +63,9 @@ class _CartScreenState extends State<CartScreen> {
                         return Container();
                       }
                       snapshot.data!.docs.forEach((product) {
-                        sum += product['price'];
+                        double finalPrice =
+                            product['price'] * product['quantity'];
+                        sum += finalPrice;
                       });
 
                       return PrimaryButton(
@@ -78,7 +80,7 @@ class _CartScreenState extends State<CartScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  AddressScreen(totalAmount: sum.toString()),
+                                  OrderScreen(totalAmount: sum.toString()),
                             ),
                           );
                         },

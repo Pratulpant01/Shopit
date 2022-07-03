@@ -33,18 +33,19 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-        productName: json['productName'],
-        imgUrl: json['imageUrl'],
-        price: json['price'],
-        discount: json['discount'],
-        description: json['description'],
-        uid: json['productUid'],
-        sellerName: json['sellerName'],
-        sellerUid: json['sellerUid'],
-        rating: json['rating'],
-        numberOfRating: json['numberOfRating'],
-        category: json['category'],
-        quantity: json['quantity']);
+      productName: json['productName'],
+      imgUrl: json['imageUrl'],
+      price: json['price'],
+      discount: json['discount'],
+      description: json['description'],
+      uid: json['productUid'],
+      sellerName: json['sellerName'],
+      sellerUid: json['sellerUid'],
+      rating: json['rating'],
+      numberOfRating: json['numberOfRating'],
+      category: json['category'],
+      quantity: json['quantity'],
+    );
   }
 
   Map<String, dynamic> getJson() {

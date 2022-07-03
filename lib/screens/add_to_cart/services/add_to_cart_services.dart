@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 import '../../../models/product_model.dart';
 import '../../../resources/storage_methods.dart';
@@ -68,17 +69,19 @@ class AddToCartServices {
     return productQuantity['quantity'];
   }
 
-  Future updateAddToCartProduct(String productUid) async {
+  Future updateAddToCartProduct(
+    String productUid,
+  ) async {
     int quantity = await AddToCartServices().getProductQuantity(productUid);
-
     await firestore
         .collection('users')
         .doc(getUid)
         .collection('cart')
         .doc(productUid)
         .update({
-      'quantity': quantity - 1,
+      'quantity': quantity + 1,
     });
+
     print(quantity);
   }
 
@@ -98,5 +101,21 @@ class AddToCartServices {
       isAdded = false;
     }
     return isAdded;
+  }
+
+  Future<String> removeProductQuantity(String uid, int quantity) async {
+    String result = 'Something went wrong';
+
+    await firestore
+        .collection('users')
+        .doc(getUid)
+        .collection('cart')
+        .doc(uid)
+        .update({
+      'quantity': quantity - 1,
+    });
+    result = 'Product removed sucessfully';
+
+    return result;
   }
 }

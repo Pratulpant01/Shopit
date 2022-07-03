@@ -22,9 +22,18 @@ class DeleteProductFromCart extends AddToCartEvent {
   });
 }
 
-// class updateProductFromCart extends AddToCartEvent {
-//   int quantity;
-//   updateProductFromCart({
-//     required this.quantity,
-//   });
-// }
+class AddProductQuantityinCart extends AddToCartEvent {
+  String productUid;
+  ProductModel productModel;
+  AddProductQuantityinCart({
+    required this.productUid,
+    required this.productModel,
+  });
+}
+
+class RemoveProductQuantityinCart extends AddToCartEvent {
+  String productUid;
+  RemoveProductQuantityinCart({
+    required this.productUid,
+  });
+}

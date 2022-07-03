@@ -20,9 +20,36 @@ class AddToCartBloc extends Bloc<AddToCartEvent, AddToCartState> {
         print(result);
       }
     });
+
     on<DeleteProductFromCart>((event, emit) async {
       emit(AddToCartLoading());
       final result = await addToCartServices.deleteProductFromCart(event.uid);
+      emit(AddToCartLoaded());
+    });
+
+    on<AddProductQuantityinCart>((event, emit) async {
+      bool isAdded =
+          await addToCartServices.checkProductinCart(event.productUid);
+      if (isAdded) {
+        addToCartServices.updateAddToCartProduct(event.productUid);
+      } else if (!isAdded) {
+        add(AddProductToDatabase(productModel: event.productModel));
+      }
+      emit(AddToCartLoaded());
+    });
+
+    on<RemoveProductQuantityinCart>((event, emit) async {
+      int quantity =
+          await AddToCartServices().getProductQuantity(event.productUid);
+
+      if (quantity >= 1) {
+        await addToCartServices.removeProductQuantity(
+            event.productUid, quantity);
+      } else {
+        emit(AddToCartLoading());
+        await AddToCartServices().deleteProductFromCart(event.productUid);
+      }
+
       emit(AddToCartLoaded());
     });
   }

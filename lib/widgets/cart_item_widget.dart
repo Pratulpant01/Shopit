@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopit/blocs/AddToCart/add_to_cart_bloc.dart';
@@ -6,7 +8,7 @@ import 'package:shopit/blocs/AddToCart/add_to_cart_bloc.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/resources/firestore_methods.dart';
 import 'package:shopit/screens/add_to_cart/services/add_to_cart_services.dart';
-import 'package:shopit/screens/product_screen.dart';
+import 'package:shopit/screens/Product/product_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -88,7 +90,13 @@ class CartItemWidget extends StatelessWidget {
                     widget: Icon(
                       Icons.remove,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<AddToCartBloc>().add(
+                            RemoveProductQuantityinCart(
+                              productUid: product.uid,
+                            ),
+                          );
+                    },
                     dimension: screenSize.height * 0.05,
                   ),
                   Padding(
@@ -96,24 +104,46 @@ class CartItemWidget extends StatelessWidget {
                       left: 1,
                       right: 1,
                     ),
-                    child: CustomSquareButton(
-                      color: Colors.white,
-                      widget: Text(
-                        '0',
-                        style: TextStyle(
-                          color: activeCyanColor,
-                        ),
-                      ),
-                      onPressed: () {},
-                      dimension: screenSize.height * 0.05,
-                    ),
+                    child: StreamBuilder<Object>(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(FirestoreMethods().getUid)
+                            .collection('cart')
+                            .doc(product.uid)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          int value = 0;
+                          if (!snapshot.hasData) {
+                            return CircularProgressIndicator();
+                          }
+                          value = snapshot.data!['quantity'];
+                          return CustomSquareButton(
+                            color: Colors.white,
+                            widget: Text(
+                              value.toString(),
+                              style: TextStyle(
+                                color: buttonColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            onPressed: () {},
+                            dimension: screenSize.height * 0.05,
+                          );
+                        }),
                   ),
                   CustomSquareButton(
                     color: backgroundColor,
                     widget: Icon(
                       Icons.add,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<AddToCartBloc>().add(
+                            AddProductQuantityinCart(
+                              productUid: product.uid,
+                              productModel: product,
+                            ),
+                          );
+                    },
                     dimension: screenSize.height * 0.05,
                   ),
                 ],
