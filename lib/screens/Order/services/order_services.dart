@@ -35,14 +35,26 @@ class OrderServices {
     return products;
   }
 
-  Future uploadOrderToDatabse({
+  Future uploadOrderedProductsToUser(String orderId) async {
+    List<ProductModel> products = await OrderServices().getOrderedProducts();
+
+    products.forEach((product) async {
+      await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('orders')
+          .doc(orderId)
+          .set(product.getJson());
+    });
+  }
+
+  Future<OrderModel> uploadOrderToDatabse({
     required List<ProductModel> products,
     required String totalPrice,
     required String shippingAddress,
     required String buyerId,
     required int orderStatus,
   }) async {
-    String orderUid = Uuid().v1();
     String orderNumber = Uuid().v4();
 
     OrderModel order = OrderModel(
@@ -55,15 +67,17 @@ class OrderServices {
     products.forEach((product) async {
       await firestore
           .collection('orders')
-          .doc(orderUid)
+          .doc(orderNumber)
           .collection('products')
           .doc(product.uid)
           .set(product.getJson());
     });
-    await firestore.collection('orders').doc(orderUid).set(order.getJson());
+    await firestore.collection('orders').doc(orderNumber).set(order.getJson());
+    await OrderServices().uploadOrderedProductsToUser(orderNumber);
+    return order;
   }
 
-  Future checkOrderStatus(String buyerId) async {
+  Future getOrderDetails(String buyerId) async {
     List<OrderModel> ordersList = [];
     final QuerySnapshot<Map<String, dynamic>> orders = await firestore
         .collection('orders')
@@ -72,22 +86,33 @@ class OrderServices {
     orders.docs.forEach((element) {
       OrderModel order = OrderModel.fromJson(element.data());
       ordersList.add(order);
-      print(ordersList[0]);
     });
   }
 
-  Future getProductsfromCart(String buyerId) async {
-    List<ProductModel> orderedProdcuts = [];
+  Future getProductsfromCart(String buyerId, String orderId) async {
+    List<OrderModel> orderedProdcuts = [];
+    List<ProductModel> prodcutList = [];
 
     final QuerySnapshot<Map<String, dynamic>> products = await firestore
         .collection('orders')
-        .where('buyerId', isEqualTo: buyerId)
+        .doc(orderId)
+        .collection('products')
         .get();
 
     products.docs.forEach((element) {
-      ProductModel product = ProductModel.fromJson(element['products']);
-      orderedProdcuts.add(product);
+      ProductModel product = ProductModel.fromJson(
+        element.data(),
+      );
+      // ProductModel product = ProductModel.fromJson(element['products'].docs);
+
+      prodcutList.add(product);
     });
-    print(orderedProdcuts);
+
+    print(prodcutList);
+
+    // products.docs.forEach((element) {
+    //   ProductModel product = ProductModel.fromJson(element['products']);
+    //   orderedProdcuts.add(product);
+    // });
   }
 }

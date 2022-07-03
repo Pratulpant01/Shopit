@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:shopit/models/product_model.dart';
 
 class OrderModel {
-  ProductModel? product;
+  List<dynamic>? products;
   final String totalPrice;
   final String shippingAddress;
   final String buyerId;
@@ -16,7 +16,7 @@ class OrderModel {
   final int orderStatus; // 0 = pending, 1= shipped, 2= received, 3= delivered
 
   OrderModel({
-    this.product,
+    this.products,
     required this.totalPrice,
     required this.shippingAddress,
     required this.buyerId,
@@ -27,6 +27,7 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
+      products: json['products'],
       totalPrice: json['totalPrice'],
       shippingAddress: json['shippingAddress'],
       buyerId: json['buyerId'],
@@ -48,6 +49,6 @@ class OrderModel {
 
   @override
   String toString() {
-    return 'OrderModel(product: $product, totalPrice: $totalPrice, shippingAddress: $shippingAddress, buyerId: $buyerId, orderNumber: $orderNumber, orderedAt: $orderedAt)';
+    return 'OrderModel(product: $products, totalPrice: $totalPrice, shippingAddress: $shippingAddress, buyerId: $buyerId, orderNumber: $orderNumber, orderedAt: $orderedAt)';
   }
 }

@@ -67,16 +67,39 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   List<PaymentItem> paymentItems = [];
-  void onApplePayResult(res) {
+  void onApplePayResult(res) async {
     if (BlocProvider.of<FirestoreBloc>(context).state.userData.address ==
         null) {
       OrderServices().uploadUserAddress(
         AddressModel(address: addressDetails),
       );
     }
+    final products = await OrderServices().getOrderedProducts();
+    OrderServices().uploadOrderToDatabse(
+      products: products,
+      totalPrice: widget.totalAmount,
+      shippingAddress: addressDetails,
+      buyerId: FirebaseAuth.instance.currentUser!.uid,
+      orderStatus: 0,
+    );
   }
 
-  void onGooglePayResult(res) {}
+  void onGooglePayResult(res) async {
+    if (BlocProvider.of<FirestoreBloc>(context).state.userData.address ==
+        null) {
+      OrderServices().uploadUserAddress(
+        AddressModel(address: addressDetails),
+      );
+    }
+    final products = await OrderServices().getOrderedProducts();
+    OrderServices().uploadOrderToDatabse(
+      products: products,
+      totalPrice: widget.totalAmount,
+      shippingAddress: addressDetails,
+      buyerId: FirebaseAuth.instance.currentUser!.uid,
+      orderStatus: 0,
+    );
+  }
 
   void addressSelected(String defaultAddress) {
     addressDetails = '';
@@ -85,7 +108,6 @@ class _OrderScreenState extends State<OrderScreen> {
         addressController.text.isNotEmpty &&
         cityController.text.isNotEmpty &&
         pinCodeController.text.isNotEmpty;
-    print(isFromActive);
 
     if (isFromActive) {
       if (_addressFormKey.currentState!.validate()) {
@@ -185,20 +207,20 @@ class _OrderScreenState extends State<OrderScreen> {
                   SizedBox(
                     height: screenSize.height * .05,
                   ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        addressSelected(user.address);
-                        List<ProductModel> products =
-                            await OrderServices().getOrderedProducts();
-                        await OrderServices().uploadOrderToDatabse(
-                          products: products,
-                          totalPrice: widget.totalAmount,
-                          shippingAddress: addressDetails,
-                          buyerId: FirebaseAuth.instance.currentUser!.uid,
-                          orderStatus: 0,
-                        );
-                      },
-                      child: Text('Testing')),
+                  // ElevatedButton(
+                  //     onPressed: () async {
+                  //       addressSelected(user.address);
+                  //       List<ProductModel> products =
+                  //           await OrderServices().getOrderedProducts();
+                  //       await OrderServices().uploadOrderToDatabse(
+                  //         products: products,
+                  //         totalPrice: widget.totalAmount,
+                  //         shippingAddress: addressDetails,
+                  //         buyerId: FirebaseAuth.instance.currentUser!.uid,
+                  //         orderStatus: 0,
+                  //       );
+                  //     },
+                  //     child: Text('Testing')),
                   ApplePayButton(
                     onPressed: () => addressSelected(user.address),
                     width: screenSize.width,

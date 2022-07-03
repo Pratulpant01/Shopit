@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
+import 'package:shopit/models/product_model.dart';
 import 'package:shopit/screens/sell_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
@@ -62,12 +64,29 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             Divider(),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ProductsShowCase(
-                title: 'Your Orders',
-                children: Demoproducts,
-              ),
-            ),
+                padding: const EdgeInsets.all(8.0),
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('orders')
+                      .where('buyerId',
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: buttonColor,
+                        ),
+                      );
+                    }
+                    return ProductsShowCase(
+                      title: 'Your Orders',
+                      children: Demoproducts,
+                    );
+                  },
+                )),
             Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
