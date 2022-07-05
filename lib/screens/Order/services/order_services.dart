@@ -48,7 +48,7 @@ class OrderServices {
     });
   }
 
-  Future<OrderModel> uploadOrderToDatabse({
+  Future uploadOrderToDatabse({
     required List<ProductModel> products,
     required String totalPrice,
     required String shippingAddress,
@@ -74,7 +74,6 @@ class OrderServices {
     });
     await firestore.collection('orders').doc(orderNumber).set(order.getJson());
     await OrderServices().uploadOrderedProductsToUser(orderNumber);
-    return order;
   }
 
   Future getOrderDetails(String buyerId) async {

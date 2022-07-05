@@ -104,23 +104,23 @@ class CartItemWidget extends StatelessWidget {
                       left: 1,
                       right: 1,
                     ),
-                    child: StreamBuilder<Object>(
+                    child: StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('users')
-                            .doc(FirestoreMethods().getUid)
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
                             .collection('cart')
                             .doc(product.uid)
                             .snapshots(),
                         builder: (context, AsyncSnapshot snapshot) {
-                          int value = 0;
                           if (!snapshot.hasData) {
                             return CircularProgressIndicator();
                           }
-                          value = snapshot.data!['quantity'];
+
+                          int value = snapshot.data['quantity'];
                           return CustomSquareButton(
                             color: Colors.white,
                             widget: Text(
-                              value.toString(),
+                              value == null ? '0' : value.toString(),
                               style: TextStyle(
                                 color: buttonColor,
                                 fontWeight: FontWeight.w500,
@@ -136,7 +136,7 @@ class CartItemWidget extends StatelessWidget {
                     widget: Icon(
                       Icons.add,
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       context.read<AddToCartBloc>().add(
                             AddProductQuantityinCart(
                               productUid: product.uid,

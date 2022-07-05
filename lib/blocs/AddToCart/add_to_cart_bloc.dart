@@ -39,6 +39,7 @@ class AddToCartBloc extends Bloc<AddToCartEvent, AddToCartState> {
     });
 
     on<RemoveProductQuantityinCart>((event, emit) async {
+      emit(AddToCartLoading());
       int quantity =
           await AddToCartServices().getProductQuantity(event.productUid);
 

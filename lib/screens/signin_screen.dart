@@ -19,7 +19,6 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  AuthMethods authMethods = AuthMethods();
   bool isLoading = false;
 
   @override
@@ -62,7 +61,6 @@ class _SigninScreenState extends State<SigninScreen> {
                     height: screenSize.height * 0.5,
                     width: screenSize.width * 0.8,
                     padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
