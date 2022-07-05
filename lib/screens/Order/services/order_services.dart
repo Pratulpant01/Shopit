@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:shopit/models/address_model.dart';
 import 'package:shopit/models/order_model.dart';
 import 'package:shopit/models/product_model.dart';
 import 'package:shopit/models/userdetail_model.dart';
+import 'package:shopit/widgets/product_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class OrderServices {
@@ -43,7 +45,7 @@ class OrderServices {
           .collection('users')
           .doc(userId)
           .collection('orders')
-          .doc(orderId)
+          .doc(product.uid)
           .set(product.getJson());
     });
   }
@@ -88,30 +90,52 @@ class OrderServices {
     });
   }
 
-  Future getProductsfromCart(String buyerId, String orderId) async {
-    List<OrderModel> orderedProdcuts = [];
-    List<ProductModel> prodcutList = [];
-
-    final QuerySnapshot<Map<String, dynamic>> products = await firestore
+  Stream<List<Widget>> showOrdersToUser() async* {
+    List<Widget> orderedProducts = [];
+    Stream<QuerySnapshot<Map<String, dynamic>>> snapshot = FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('orders')
-        .doc(orderId)
-        .collection('products')
-        .get();
+        .snapshots();
 
-    products.docs.forEach((element) {
-      ProductModel product = ProductModel.fromJson(
-        element.data(),
-      );
-      // ProductModel product = ProductModel.fromJson(element['products'].docs);
-
-      prodcutList.add(product);
-    });
-
-    print(prodcutList);
-
-    // products.docs.forEach((element) {
-    //   ProductModel product = ProductModel.fromJson(element['products']);
-    //   orderedProdcuts.add(product);
-    // });
+    snapshot.forEach(
+      (snap) {
+        snap.docs.forEach((element) {
+          ProductModel product = ProductModel.fromJson(element.data());
+          orderedProducts.add(
+            ProductWidget(productModel: product),
+          );
+        });
+      },
+    );
+    yield orderedProducts;
   }
 }
+
+// Future getProductsfromCart(String buyerId, String orderId) async {
+//     List<OrderModel> orderedProdcuts = [];
+//     List<ProductModel> prodcutList = [];
+
+//     final QuerySnapshot<Map<String, dynamic>> products = await firestore
+//         .collection('orders')
+//         .doc(orderId)
+//         .collection('products')
+//         .get();
+
+//     products.docs.forEach((element) {
+//       ProductModel product = ProductModel.fromJson(
+//         element.data(),
+//       );
+//       // ProductModel product = ProductModel.fromJson(element['products'].docs);
+
+//       prodcutList.add(product);
+//     });
+
+//     print(prodcutList);
+
+//     // products.docs.forEach((element) {
+//     //   ProductModel product = ProductModel.fromJson(element['products']);
+//     //   orderedProdcuts.add(product);
+//     // });
+//   }

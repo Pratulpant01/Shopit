@@ -5,12 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopit/blocs/UserDataBloc/firestore_bloc.dart';
 import 'package:shopit/models/product_model.dart';
+import 'package:shopit/screens/Order/services/order_services.dart';
 import 'package:shopit/screens/sell_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/widgets/account_screen_appBar.dart';
 import 'package:shopit/widgets/Buttons/primary_button.dart';
 import 'package:shopit/widgets/product_show_list.dart';
+import 'package:shopit/widgets/product_widget.dart';
 
 import '../utils/utils.dart';
 
@@ -65,27 +67,33 @@ class _AccountScreenState extends State<AccountScreen> {
             Divider(),
             Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('orders')
-                      .where('buyerId',
-                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-                      .snapshots(),
-                  builder: (context,
-                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                          snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: buttonColor,
-                        ),
+                child: Container(
+                  child: StreamBuilder(
+                    stream: OrderServices().showOrdersToUser(),
+                    builder: (context, AsyncSnapshot<List<Widget>> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: buttonColor,
+                          ),
+                        );
+                      }
+                      // print(snapshot.data!.docs[0].data());
+                      // List<Widget> orderedProducts = [];
+
+                      // snapshot.data!.docs.forEach((snap) {
+                      //   ProductModel product =
+                      //       ProductModel.fromJson(snap.data());
+                      //   orderedProducts.add(
+                      //     ProductWidget(productModel: product),
+                      //   );
+                      // });
+                      return ProductsShowCase(
+                        children: snapshot.data,
+                        title: "Your Orders",
                       );
-                    }
-                    return ProductsShowCase(
-                      title: 'Your Orders',
-                      children: Demoproducts,
-                    );
-                  },
+                    },
+                  ),
                 )),
             Divider(),
             Padding(
