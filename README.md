@@ -28,7 +28,8 @@ A complete shopping app with amazing UI designs and functionality using Flutter,
 11. Review Screen Added.
 12. Product Rating
 13. Sell your Products
-14. 
+14. Fetch ordered products in my order section
+15. 
 
 
 
