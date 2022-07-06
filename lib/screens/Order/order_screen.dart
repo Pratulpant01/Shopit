@@ -10,6 +10,7 @@ import 'package:shopit/models/product_model.dart';
 import 'package:shopit/screens/Order/services/order_services.dart';
 import 'package:shopit/screens/Order/services/order_services.dart';
 import 'package:shopit/screens/account_screen.dart';
+import 'package:shopit/screens/order_result_screen.dart';
 import 'package:shopit/utils/color_themes.dart';
 import 'package:shopit/utils/constants.dart';
 import 'package:shopit/utils/utils.dart';
@@ -24,11 +25,11 @@ final _addressFormKey = GlobalKey<FormState>();
 
 class OrderScreen extends StatefulWidget {
   final String totalAmount;
-  bool isSelected;
+  bool isLoading = false;
+
   OrderScreen({
     Key? key,
     required this.totalAmount,
-    this.isSelected = false,
   }) : super(key: key);
 
   @override
@@ -82,6 +83,12 @@ class _OrderScreenState extends State<OrderScreen> {
       buyerId: FirebaseAuth.instance.currentUser!.uid,
       orderStatus: 0,
     );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderResultScreen(),
+      ),
+    );
   }
 
   void onGooglePayResult(res) async {
@@ -98,6 +105,12 @@ class _OrderScreenState extends State<OrderScreen> {
       shippingAddress: addressDetails,
       buyerId: FirebaseAuth.instance.currentUser!.uid,
       orderStatus: 0,
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderResultScreen(),
+      ),
     );
   }
 
@@ -133,109 +146,129 @@ class _OrderScreenState extends State<OrderScreen> {
         appBar: ParentAppBarWidget(
           hasBack: true,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: Stack(
+          children: [
+            widget.isLoading
+                ? Container(
+                    height: screenSize.height,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: buttonColor,
+                      ),
+                    ))
+                : Container(),
+            SingleChildScrollView(
+              child: Stack(
                 children: [
-                  user != null
-                      ? Column(
-                          children: [
-                            addressWidget(
-                              screenSize: screenSize,
-                              address: user,
-                            ),
-                            Center(
-                              child: Text("Or", style: addressTextStyle),
-                            ),
-                          ],
-                        )
-                      : Container(),
-                  SizedBox(
-                    height: screenSize.height * 0.01,
-                  ),
-                  Center(
-                    child: Text(
-                      'Add your address',
-                      style: addressTextStyle,
-                    ),
-                  ),
-                  Divider(
-                    thickness: 2,
-                    color: !widget.isSelected ? buttonColor : Colors.grey,
-                  ),
-                  Form(
-                    key: _addressFormKey,
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Column(
-                      children: [
-                        TextFieldWidget(
-                          title: "Name",
-                          controller: nameController,
-                          obsecureText: false,
-                          hintText: 'Full Name',
-                        ),
-                        TextFieldWidget(
-                          title: "Address",
-                          controller: addressController,
-                          obsecureText: false,
-                          hintText: 'Flat, House No, Building',
-                        ),
-                        TextFieldWidget(
-                          title: "City",
-                          controller: cityController,
-                          obsecureText: false,
-                          hintText: 'City',
-                        ),
-                        TextFieldWidget(
-                          title: "Pin Code",
-                          controller: pinCodeController,
-                          obsecureText: false,
-                          hintText: 'Pin code',
-                        ),
-                        TextFieldWidget(
-                          title: "Phone Number",
-                          controller: phoneNumberController,
-                          obsecureText: false,
-                          hintText: 'Enter your phone number',
-                        ),
-                      ],
-                    ),
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          user != null
+                              ? Column(
+                                  children: [
+                                    addressWidget(
+                                      screenSize: screenSize,
+                                      address: user,
+                                    ),
+                                    Center(
+                                      child:
+                                          Text("Or", style: addressTextStyle),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                          SizedBox(
+                            height: screenSize.height * 0.01,
+                          ),
+                          Center(
+                            child: Text(
+                              'Add your address',
+                              style: addressTextStyle,
+                            ),
+                          ),
+                          Divider(
+                            thickness: 2,
+                            color: Colors.black,
+                          ),
+                          Form(
+                            key: _addressFormKey,
+                            child: Column(
+                              children: [
+                                TextFieldWidget(
+                                  title: "Name",
+                                  controller: nameController,
+                                  obsecureText: false,
+                                  hintText: 'Full Name',
+                                ),
+                                TextFieldWidget(
+                                  title: "Address",
+                                  controller: addressController,
+                                  obsecureText: false,
+                                  hintText: 'Flat, House No, Building',
+                                ),
+                                TextFieldWidget(
+                                  title: "City",
+                                  controller: cityController,
+                                  obsecureText: false,
+                                  hintText: 'City',
+                                ),
+                                TextFieldWidget(
+                                  title: "Pin Code",
+                                  controller: pinCodeController,
+                                  obsecureText: false,
+                                  hintText: 'Pin code',
+                                ),
+                                TextFieldWidget(
+                                  title: "Phone Number",
+                                  controller: phoneNumberController,
+                                  obsecureText: false,
+                                  hintText: 'Enter your phone number',
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: screenSize.height * .05,
+                          ),
+                          ApplePayButton(
+                            onPressed: () {
+                              addressSelected(user.address);
+                            },
+                            width: screenSize.width,
+                            height: screenSize.height * 0.05,
+                            type: ApplePayButtonType.buy,
+                            style: ApplePayButtonStyle.whiteOutline,
+                            paymentConfigurationAsset: 'applepay.json',
+                            onPaymentResult: onApplePayResult,
+                            paymentItems: paymentItems,
+                          ),
+                          SizedBox(
+                            height: screenSize.height * .05,
+                          ),
+                          GooglePayButton(
+                            onPressed: () => addressSelected(user.address),
+                            width: screenSize.width,
+                            height: screenSize.height * 0.05,
+                            type: GooglePayButtonType.buy,
+                            style: GooglePayButtonStyle.black,
+                            paymentConfigurationAsset: 'gpay.json',
+                            onPaymentResult: onGooglePayResult,
+                            paymentItems: paymentItems,
+                            loadingIndicator: Center(
+                                child: CircularProgressIndicator(
+                              color: buttonColor,
+                            )),
+                          )
+                        ]),
                   ),
-                  SizedBox(
-                    height: screenSize.height * .05,
-                  ),
-                  ApplePayButton(
-                    onPressed: () => addressSelected(user.address),
-                    width: screenSize.width,
-                    height: screenSize.height * 0.05,
-                    type: ApplePayButtonType.buy,
-                    style: ApplePayButtonStyle.whiteOutline,
-                    paymentConfigurationAsset: 'applepay.json',
-                    onPaymentResult: onApplePayResult,
-                    paymentItems: paymentItems,
-                  ),
-                  SizedBox(
-                    height: screenSize.height * .05,
-                  ),
-                  GooglePayButton(
-                    onPressed: () => addressSelected(user.address),
-                    width: screenSize.width,
-                    height: screenSize.height * 0.05,
-                    type: GooglePayButtonType.buy,
-                    style: GooglePayButtonStyle.black,
-                    paymentConfigurationAsset: 'gpay.json',
-                    onPaymentResult: onGooglePayResult,
-                    paymentItems: paymentItems,
-                    loadingIndicator: Center(
-                        child: CircularProgressIndicator(
-                      color: buttonColor,
-                    )),
-                  )
-                ]),
-          ),
+                ],
+              ),
+            ),
+          ],
         ));
   }
 }

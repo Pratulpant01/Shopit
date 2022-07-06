@@ -37,7 +37,7 @@ class OrderServices {
     return products;
   }
 
-  Future uploadOrderedProductsToUser(String orderId) async {
+  Future uploadOrderedProductsToUser() async {
     List<ProductModel> products = await OrderServices().getOrderedProducts();
 
     products.forEach((product) async {
@@ -75,7 +75,7 @@ class OrderServices {
           .set(product.getJson());
     });
     await firestore.collection('orders').doc(orderNumber).set(order.getJson());
-    await OrderServices().uploadOrderedProductsToUser(orderNumber);
+    await OrderServices().uploadOrderedProductsToUser();
   }
 
   Future getOrderDetails(String buyerId) async {
