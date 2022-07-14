@@ -1,6 +1,13 @@
 # shopit
 
 A complete shopping app with amazing UI designs and functionality using Flutter, Firebase & Bloc.
+![](https://github.com/Pratulpant01/Shopit/blob/master/Signup%20%26%20Login.gif)
+
+![](https://github.com/Pratulpant01/Shopit/blob/master/product%20screen.gif)
+
+
+
+
 **Screens Added- **
 
 1. Login Screen & Signup screen using Firebase & Bloc.
