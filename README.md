@@ -9,6 +9,8 @@ A complete shopping app with amazing UI designs and functionality using Flutter,
 
 ![](https://github.com/Pratulpant01/Shopit/blob/master/sell%20products.gif)
 
+![](https://github.com/Pratulpant01/Shopit/blob/master/checkout.gif)
+
 
 
 
